@@ -22,7 +22,7 @@ public class SquareTriangle extends Square {
 				}
 				res[0] = " ".repeat(offset) + super.getSymbol();			
 			} else {
-				for (int i = 1; i < width -1; i ++) {
+				for (int i = 1; i < width - 1; i ++) {
 					res[i] = getLegRight(offset,i);
 				}
 				res[0] = " ".repeat(offset + width - 1) + super.getSymbol();
