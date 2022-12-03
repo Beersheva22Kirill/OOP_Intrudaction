@@ -10,8 +10,8 @@ public class Square extends Rectangle {
 		super.setWidth(width);
 	}
 	
-	public void setHight(int width) {
-		super.setHeight(width);
+	public void setHight(int height) {
+		super.setHeight(height);
 	}
 
 

@@ -29,7 +29,7 @@ class ShapeTests {
 	
 	@Test
 	void squareTriangleTest() {
-		SquareTriangle triangle = new SquareTriangle(10, false);
+		SquareTriangle triangle = new SquareTriangle(10, true);
 		displayStrings(triangle.presentation(10));
 	}
 	

@@ -10,15 +10,7 @@ public class SquareTriangle extends Square {
 		super(width);
 		this.isLeftDiagonal = isLeftDiagonal;
 	}
-	
-	public void setWidth(int width) {
-		super.setWidth(width);
-	}
-	
-	public void setHight(int width) {
-		super.setHeight(width);
-	}
-	
+		
 	public String[] presentation(int offset) {
 		int width = super.getWidth();
 		String[] res = new String [width];
