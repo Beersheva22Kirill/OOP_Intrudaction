@@ -29,8 +29,8 @@ class ShapeTests {
 	
 	@Test
 	void squareTriangleTest() {
-		SquareTriangle triangle = new SquareTriangle(10, true);
-		displayStrings(triangle.presentation(10));
+		SquareTriangle triangle = new SquareTriangle(10, false);
+		displayStrings(triangle.presentation(5));
 	}
 	
 	@Test

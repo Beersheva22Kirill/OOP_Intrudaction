@@ -12,7 +12,7 @@ public class SquareTriangle extends Square {
 	}
 		
 	public String[] presentation(int offset) {
-		int width = super.getWidth();
+		int width = getWidth();
 		String[] res = new String [width];
 			String line = getLine(offset);
 			res[width - 1] = line;
@@ -22,7 +22,7 @@ public class SquareTriangle extends Square {
 				}
 				res[0] = " ".repeat(offset) + super.getSymbol();			
 			} else {
-				for (int i = 1; i < super.getWidth() -1; i ++) {
+				for (int i = 1; i < width -1; i ++) {
 					res[i] = getLegRight(offset,i);
 				}
 				res[0] = " ".repeat(offset + width - 1) + super.getSymbol();
