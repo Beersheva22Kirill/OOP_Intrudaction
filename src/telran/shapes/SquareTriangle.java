@@ -20,7 +20,7 @@ public class SquareTriangle extends Square {
 				for (int i = width - 2; i > 0; i --) {
 					res[i] = getLegtLeft(offset,i-1);
 				}
-				res[0] = " ".repeat(offset) + super.getSymbol();			
+				res[0] = " ".repeat(offset) + super.getSymbol() + " ".repeat(width- 1);			
 			} else {
 				for (int i = 1; i < width - 1; i ++) {
 					res[i] = getLegRight(offset,i);
@@ -33,7 +33,7 @@ public class SquareTriangle extends Square {
 
 	private String getLegtLeft(int offset, int widht) {
 		
-		return " ".repeat(offset) + super.getSymbol() + " ".repeat(widht) + super.getSymbol();			
+		return " ".repeat(offset) + super.getSymbol() + " ".repeat(widht) + super.getSymbol() + " ".repeat(getWidth() - widht - 2);			
 	}
 	
 	private String getLegRight(int offset, int width) {
