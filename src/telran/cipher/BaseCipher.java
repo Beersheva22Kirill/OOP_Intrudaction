@@ -47,7 +47,7 @@ public class BaseCipher {
 		number = number/systemCount;
 		int indexSymbol = 0;
 		while (number > 0) { 
-			if (number/systemCount > 0) {
+			if (number > systemCount) {
 				indexSymbol = number%systemCount;	
 			} else {
 				indexSymbol = number;		
