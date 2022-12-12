@@ -11,7 +11,7 @@ class CipherTest {
 
 	@Test
 	void BaseCipherTest() {
-		BaseCipher key = new BaseCipher(1);
+		BaseCipher key = new BaseCipher(10);
 		displayString("Key: " + key.presentation());
 		System.out.println();
 		displayString("Cipher number: " + key.cipher(54));

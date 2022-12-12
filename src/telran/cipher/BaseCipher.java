@@ -43,11 +43,10 @@ public class BaseCipher {
 		String key = this.key;
 		char[] keyArr = key.toCharArray();
 		int systemCount = keyArr.length;
-		String res = null;
-		res = Character.toString(keyArr[number%systemCount]) ;
+		String res = Character.toString(keyArr[number%systemCount]) ; 
 		number = number/systemCount;
 		int indexSymbol = 0;
-		while (number%systemCount != 0 || number/systemCount > 0 ) {
+		while (number > 0) { 
 			if (number/systemCount > 0) {
 				indexSymbol = number%systemCount;	
 			} else {
