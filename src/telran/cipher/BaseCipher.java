@@ -1,7 +1,5 @@
 package telran.cipher;
 
-import java.util.Arrays;
-
 public class BaseCipher {
 	
 	private String key;

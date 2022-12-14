@@ -18,7 +18,7 @@ public class SquareTriangle extends Square {
 			res[width - 1] = line;
 			if (isLeftDiagonal) {
 				for (int i = width - 2; i > 0; i --) {
-					res[i] = getLegtLeft(offset,i-1);
+					res[i] = getLegLeft(offset,i-1);
 				}
 				res[0] = " ".repeat(offset) + super.getSymbol() + " ".repeat(width- 1);			
 			} else {
@@ -31,7 +31,7 @@ public class SquareTriangle extends Square {
 		return res;
 	}
 
-	private String getLegtLeft(int offset, int widht) {
+	private String getLegLeft(int offset, int widht) {
 		
 		return " ".repeat(offset) + super.getSymbol() + " ".repeat(widht) + super.getSymbol() + " ".repeat(getWidth() - widht - 2);			
 	}

@@ -28,8 +28,9 @@ class ShapeTests {
 		
 	
 	@Test
+	@Disabled
 	void squareTriangleTest() {
-		SquareTriangle triangle = new SquareTriangle(8, true);
+		SquareTriangle triangle = new SquareTriangle(8, false);
 		displayStrings(triangle.presentation(5));
 	}
 	
@@ -37,14 +38,24 @@ class ShapeTests {
 	@Disabled
 	void squareLeftTriangleTest() {
 		SquareLeftTriangle lTriangle = new SquareLeftTriangle(10);
-		displayStrings(lTriangle.presentation(10));
+		displayStrings(lTriangle.presentation(5));
 	}
 	
 	@Test
 	@Disabled
 	void squareRightTriangleTest() {
 		SquareRightTriangle rTriangle = new SquareRightTriangle(10);
-		displayStrings(rTriangle.presentation(10));
+		displayStrings(rTriangle.presentation(5));
+	}
+	
+	@Test
+	void canvasTest() {
+		Shape rectangle = new Rectangle(10, 10);
+		Shape triangleLeft = new SquareLeftTriangle(15);
+		Shape triangleRight = new SquareRightTriangle(20);
+		Canvas canvas = new Canvas(5, 10, new Shape[] {rectangle, triangleLeft, triangleRight});
+		canvas.setDirection("columns");
+		displayStrings(canvas.presentation(4));
 	}
 	
 	
@@ -54,6 +65,7 @@ class ShapeTests {
 			System.out.println(str);
 		}
 	}
+	
 	 
 
 
