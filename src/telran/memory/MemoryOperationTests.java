@@ -11,7 +11,7 @@ class MemoryOperationTests {
 	@Test
 	void maxMemoryTest() {
 		int maxMemory = MemoryOperations.getMaxAvaliableMemory();
-		array = new byte[maxMemory]; 
+		array = new byte[maxMemory];
 		boolean flException = false;
 		try {
 			array = new byte [maxMemory + 1];
