@@ -34,7 +34,7 @@ public class Canvas extends Shape {
 		
 		if (direction == "row") {
 			shapes[0].setHeight(this.getHeight());
-			figure = shapes[0].presentation(offset);	
+			figure = shapes[0].presentation(offset);
 			for(int j = 0; j < figure.length; j++) {
 				res[j] = figure[j];
 			}
