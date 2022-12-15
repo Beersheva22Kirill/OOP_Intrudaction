@@ -50,13 +50,13 @@ class ShapeTests {
 	
 	@Test
 	void canvasTest() {
-		Shape rectangle = new Rectangle(60, 3);
-		Shape triangleLeft = new SquareLeftTriangle(15);
-		Shape triangleRight = new SquareRightTriangle(20);
-		Canvas canvas = new Canvas(10, 10, new Shape[] {rectangle, triangleLeft, triangleRight});
-		//canvas.setDirection("columns");
-		Canvas canvas2 = new Canvas (10, 10, new Shape[] {canvas});
-		canvas2.setDirection("columns");
+		Shape rectangle = new Rectangle(20, 5);
+		Shape triangleLeft = new SquareLeftTriangle(8);
+		Shape triangleRight = new SquareRightTriangle(3);
+		Canvas canvas = new Canvas(3, 3, new Shape[] {rectangle, triangleLeft});
+		canvas.setDirection("columns");
+		Canvas canvas2 = new Canvas (15, 10, new Shape[] {canvas, rectangle, triangleLeft,triangleRight});
+		canvas2.setDirection("row");
 		displayStrings(canvas2.presentation(4));
 				
 	}

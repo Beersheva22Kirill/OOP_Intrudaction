@@ -1,7 +1,5 @@
 package telran.shapes;
 
-import java.util.Iterator;
-
 public class Rectangle extends Shape {
 
 	public Rectangle(int width, int height) {

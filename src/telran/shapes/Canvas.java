@@ -4,7 +4,7 @@ public class Canvas extends Shape {
 	
 	private Shape[] shapes;
 	private String direction = "row";
-	private int margin = 5;
+	private int margin = 1;
 	
 	
 	public Canvas ( int width, int height, Shape[] shapes) {
@@ -16,10 +16,19 @@ public class Canvas extends Shape {
 	public String[] presentation(int offset) {
 		int countFigure = shapes.length;
 		int sizeCanvas = 0;
-		String[] figure = shapes[0].presentation(offset);
+		String[] figure;
+		
+		for (Shape sh : shapes) {
+			try {
+				((Canvas)sh).setDirection(this.direction);
+			} catch (Exception e) {
+
+			}
+		}
+		
 		
 		if (direction == "row") {
-			sizeCanvas = this.getWidth();			
+			sizeCanvas = this.getHeight();			
 		} else if (direction == "columns") {
 			for(int i = 0; i < countFigure; i++) {
 				figure = shapes[i].presentation(offset);
@@ -39,7 +48,7 @@ public class Canvas extends Shape {
 				res[j] = figure[j];
 			}
 			for(int i = 1; i < countFigure; i++) {	
-				shapes[i].setHeight(getWidth());
+				shapes[i].setHeight(getHeight());
 				figure = shapes[i].presentation(margin);
 				for(int j = 0; j < figure.length; j++) {
 					res[j] += figure[j];

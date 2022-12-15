@@ -1,6 +1,5 @@
 package telran.shapes;
 
-import java.util.Iterator;
 
 public class SquareTriangle extends Square {
 
