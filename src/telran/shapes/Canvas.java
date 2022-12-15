@@ -1,12 +1,10 @@
 package telran.shapes;
 
-import java.util.Iterator;
-
 public class Canvas extends Shape {
 	
 	private Shape[] shapes;
 	private String direction = "row";
-	private int margin = 2;
+	private int margin = 5;
 	
 	
 	public Canvas ( int width, int height, Shape[] shapes) {
@@ -35,7 +33,7 @@ public class Canvas extends Shape {
 		String[] res = new String[sizeCanvas];	
 		
 		if (direction == "row") {
-			shapes[0].setHeight(getWidth());
+			shapes[0].setHeight(this.getHeight());
 			figure = shapes[0].presentation(offset);	
 			for(int j = 0; j < figure.length; j++) {
 				res[j] = figure[j];
@@ -51,6 +49,7 @@ public class Canvas extends Shape {
 		else if (direction == "columns") {
 			int counter = 0;
 			for(int i = 0; i < countFigure; i++) {
+				//shapes[i].setWidth(this.getWidth());
 				figure = shapes[i].presentation(offset);
 				for(int j = 0; j < figure.length;j++) {
 					res[counter] = figure[j];
