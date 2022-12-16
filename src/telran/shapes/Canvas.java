@@ -20,7 +20,7 @@ public class Canvas extends Shape {
 		
 		for (Shape sh : shapes) {
 			try {
-				((Canvas)sh).setDirection(this.direction);
+				((Canvas)sh).setDirection(this.direction); // downcasting Shape to Canvas
 			} catch (Exception e) {
 
 			}
@@ -31,7 +31,7 @@ public class Canvas extends Shape {
 			sizeCanvas = this.getHeight();			
 		} else if (direction == "columns") {
 			for(int i = 0; i < countFigure; i++) {
-				figure = shapes[i].presentation(offset);
+				figure = shapes[i].presentation(offset); // polymorphism Shapes
 				for (int j = 0; j < figure.length; j++) {
 					sizeCanvas ++;
 				}
