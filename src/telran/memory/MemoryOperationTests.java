@@ -15,7 +15,8 @@ class MemoryOperationTests {
 		array = null;
 		boolean flException = false;
 		try {
-			array = new byte [maxMemory + 1];
+				array = new byte [maxMemory + 1];			
+					
 		} catch (Throwable e) {
 			flException = true;
 		}
