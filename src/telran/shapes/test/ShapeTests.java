@@ -54,9 +54,9 @@ class ShapeTests {
 		Shape triangleLeft = new SquareLeftTriangle(8);
 		Shape triangleRight = new SquareRightTriangle(3);
 		Canvas canvas = new Canvas(3, 3, new Shape[] {rectangle, triangleLeft});
-		//canvas.setDirection("columns");
+		canvas.setDirection("columns");
 		Canvas canvas2 = new Canvas (15, 10, new Shape[] {canvas, rectangle, triangleLeft,triangleRight});
-		canvas2.setDirection("columns");
+		canvas2.setDirection("row");
 		displayStrings(canvas2.presentation(4));
 				
 	}

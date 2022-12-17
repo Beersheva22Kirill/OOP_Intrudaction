@@ -1,5 +1,7 @@
 package telran.shapes;
 
+import org.hamcrest.core.IsInstanceOf;
+
 public class Canvas extends Shape {
 	
 	private Shape[] shapes;
@@ -19,10 +21,8 @@ public class Canvas extends Shape {
 		String[] figure;
 		
 		for (Shape sh : shapes) {
-			try {
+			if (sh instanceof Canvas) {
 				((Canvas)sh).setDirection(this.direction); // downcasting Shape to Canvas
-			} catch (Exception e) {
-
 			}
 		}
 		
