@@ -7,7 +7,7 @@ public class MemoryOperations {
 		int middle = (left + right)/2;
 		boolean running = true;
 		byte[] array = null;
-		while(running) {
+		while(running && middle > 0) {
 			try {
 				array = null;
 				array = new byte[middle];
