@@ -7,24 +7,27 @@ public class MemoryOperations {
 		int middle = (left + right)/2;
 		boolean running = true;
 		byte[] array = null;
-		while(running && middle > 0) {
-			try {
-				array = null;
-				array = new byte[middle];
+			while(running) {
 				try {
 					array = null;
-					array = new byte[middle + 1];	
-					left = middle;
-				} catch (Throwable e) {
-					running = false;
+					array = new byte[middle];
+					try {
+						array = null;
+						array = new byte[middle + 1];	
+						left = middle;
+					} catch (Throwable x) {
+						running = false;
+					}	
+					if ((left + right)/2 < 0) {
+						middle = left + (right - left) /2;
+					} else  {
+						middle = (left + right)/2;
+					}		
+				} catch (Throwable x) {				
+					right = middle;
+					middle = (left + right)/2;
 				}
-				
-				middle = (left + right)/2;
-			} catch (Throwable e) {				
-				right = middle;
-				middle = (left + right)/2;
 			}
-		}
 		return middle;
 	}
 	
