@@ -58,7 +58,6 @@ public class Canvas extends Shape {
 		else if (direction == "columns") {
 			int counter = 0;
 			for(int i = 0; i < countFigure; i++) {
-				//shapes[i].setWidth(this.getWidth());
 				figure = shapes[i].presentation(offset);
 				for(int j = 0; j < figure.length;j++) {
 					res[counter] = figure[j];
