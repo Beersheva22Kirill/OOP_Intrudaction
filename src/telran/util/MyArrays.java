@@ -11,12 +11,12 @@ public class MyArrays {
 		} while (moveMaxAtEnd(objects,length,comparator));
 	}
 	
-	public static <T> int binarySearch (T[] objects, Integer searchedNumber, Comparator<T> comparator) {
+	public static <T> int binarySearch (T[] objects, T searchedNumber, Comparator<T> comparator) {
 		int left = 0;
 		int right = objects.length - 1;
 		int middle = right/2;	
 		while (left <= right && objects[middle] != searchedNumber) {
-			if (comparator.compare(objects[middle], (T)searchedNumber) > 0) {
+			if (comparator.compare(objects[middle], searchedNumber) > 0) {
 				left = middle + 1;
 			} else {
 				right = middle - 1;
