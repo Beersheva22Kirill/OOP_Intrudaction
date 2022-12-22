@@ -2,7 +2,7 @@ package telran.util.tests;
 
 import java.util.Comparator;
 
-public class BinarySearchComparator implements Comparator<Integer>{
+public class IntegerBSComparator implements Comparator<Integer>{
 
 	@Override
 	public int compare(Integer o1, Integer o2) {
