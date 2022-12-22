@@ -1,13 +1,9 @@
 package telran.util.tests;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.Assert.*;
 import java.util.Comparator;
 import java.util.function.Predicate;
-
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.*;
 import telran.util.MyArrays;
 
 class MyArraysTest {
