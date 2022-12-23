@@ -11,7 +11,7 @@ public class EvenOddComparator implements Comparator<Integer>{
 		if (o1 % 2 == 0 && o2 % 2 == 0) {			
 			res = o1 < o2 ? -1 : 1; 
 		} else if (o1 % 2 != 0 && o2 % 2 != 0) {			
-			res = o1 < o2 ? 1 : -1;			
+			res = o2 < o1 ? -1 : 1;			
 		} else if (o1 % 2 == 0 && o2 % 2 != 0) {			
 			res = -1;			
 		} else {			

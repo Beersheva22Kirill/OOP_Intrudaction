@@ -2,8 +2,9 @@ package telran.util;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.function.Predicate;
+
+import org.junit.jupiter.api.Disabled;
 
 public class MyArrays {
 	
@@ -26,7 +27,7 @@ public class MyArrays {
 			}				
 			middle = (left + right) /2;
 		}		
-		return left > right ? (middle * (-1)) - 1 : middle;
+		return left > right ? -middle - 1 : middle;
 	}
 
 
@@ -48,28 +49,73 @@ public class MyArrays {
 	}
 
 	public static <T> T[] filter(T[] objects, Predicate<T> predicate) {
-			int countPredicate = getCountPredicate(objects, predicate); 			
-			T[] res = Arrays.copyOf(objects, countPredicate);
-			int index = 0;
-			for (T element : objects) {
-				if (predicate.test(element)) {
-					res[index] = element;
-					index++;
-				}
-			}			
+			T[] res = removeElement(objects, predicate, true);			
 		return res;
 	}
 
-	private static <T> int getCountPredicate(T[] objects, Predicate<T> predicate) {
+	private static <T> T[] removeElement(T[] objects, Predicate<T> predicate, boolean flagAction) {
+		//flagAction == true - filtering and flagAction == false - removing
+		int countPredicate = flagAction ?  getCountArray(objects, predicate, true) : getCountArray(objects, predicate, false);													
+		T[] res = Arrays.copyOf(objects, countPredicate);
+		int index = 0;
+		for (T element : objects) {
+			if (flagAction ? predicate.test(element) : !predicate.test(element)) {
+				res[index] = element;
+				index++;
+			}
+		}
+		return res;
+	}
+
+	private static <T> int getCountArray(T[] objects, Predicate<T> predicate, boolean flag) {
 		int res = 0;		
 		for (T element : objects) {
-			if (predicate.test(element)) {
+			if (flag ? predicate.test(element) : !predicate.test(element)) {
 				res++;
 			}			
 		}
 		return res;
 	}
 	
+	public static <T> T[] removeIf(T[] objects, Predicate<T> predicate) {	
+		T[] res = removeElement(objects, predicate, false);
+		return res;
+	}
 	
+	public static <T> T[] removeRepeated(T[] objects) {
+		int countUniqElement = countUniqElement(objects);
+		T[] workArray = Arrays.copyOf(objects, objects.length);
+		T[] res = Arrays.copyOf(objects, countUniqElement);
+		int index = 0;
+		while(workArray.length > 0) {
+			T element = workArray[0];
+			res[index++] = workArray[0];
+			Predicate<T> predicate = t -> t == element;
+			workArray = removeIf(workArray, predicate);	
+		}
+		return res;
+	}
+
+	private static <T> int countUniqElement(T[] objects) {
+		int res = 0;
+		T[] temp = Arrays.copyOf(objects, objects.length);
+		while(temp.length > 0) {
+			T element = temp[0];
+			Predicate<T> predicate = t -> t == element;
+			temp = removeIf(temp, predicate);
+			res++;
+		}
+		return res;
+	}
+	
+	public static <T> boolean  contains(T[] objects, T pattern) {
+		boolean res = false;
+			for (T element : objects) {
+				if (element == pattern) {
+					res = true;
+				}	
+			}
+		return res;
+	}
 
 }
