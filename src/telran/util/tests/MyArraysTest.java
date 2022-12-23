@@ -48,7 +48,9 @@ class MyArraysTest {
 	@Test
 	void binarySearchTest() {
 	Integer numbersArr[] = {-8,6,9,10,11,15,16,23};
-	assertEquals( 1, MyArrays.binarySearch(numbersArr, 6, new IntegerBSComparator()));
+	assertEquals( 3, MyArrays.binarySearch(numbersArr, 10, new IntegerBSComparator()));
+	assertEquals( 0, MyArrays.binarySearch(numbersArr, -8, new IntegerBSComparator()));
+	assertEquals( 7, MyArrays.binarySearch(numbersArr, 23, new IntegerBSComparator()));
 	assertEquals( -7, MyArrays.binarySearch(numbersArr, 17, new IntegerBSComparator()));
 	assertEquals( -1, MyArrays.binarySearch(numbersArr, -9, new IntegerBSComparator()));
 	assertEquals( -8, MyArrays.binarySearch(numbersArr, 25, new IntegerBSComparator()));
