@@ -51,9 +51,9 @@ class MyArraysTest {
 	assertEquals( 3, MyArrays.binarySearch(numbersArr, 10, new IntegerBSComparator()));
 	assertEquals( 0, MyArrays.binarySearch(numbersArr, -8, new IntegerBSComparator()));
 	assertEquals( 7, MyArrays.binarySearch(numbersArr, 23, new IntegerBSComparator()));
-	assertEquals( -7, MyArrays.binarySearch(numbersArr, 17, new IntegerBSComparator()));
+	assertEquals( -8, MyArrays.binarySearch(numbersArr, 17, new IntegerBSComparator()));
 	assertEquals( -1, MyArrays.binarySearch(numbersArr, -9, new IntegerBSComparator()));
-	assertEquals( -8, MyArrays.binarySearch(numbersArr, 25, new IntegerBSComparator()));
+	assertEquals( -9, MyArrays.binarySearch(numbersArr, 25, new IntegerBSComparator()));
 	}
 	
 	@Test

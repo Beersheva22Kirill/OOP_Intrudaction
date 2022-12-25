@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
-import org.junit.jupiter.api.Disabled;
-
 public class MyArrays {
 	
 	public static <T> void sort(T[] objects, Comparator<T> comparator) {
@@ -27,7 +25,7 @@ public class MyArrays {
 			}				
 			middle = (left + right) /2;
 		}		
-		return left > right ? -middle - 1 : middle;
+		return left > right ? -left - 1 : middle;
 	}
 
 
