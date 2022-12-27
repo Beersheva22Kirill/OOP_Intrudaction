@@ -107,13 +107,28 @@ public class MyArrays {
 	}
 	
 	public static <T> boolean  contains(T[] objects, T pattern) {
-		boolean res = false;
-			for (T element : objects) {
-				if (element == pattern) {
-					res = true;
-				}	
+		int index = 0;
+		while (index < objects.length && !isEquals(objects[index],pattern)) {
+				index++;
 			}
-		return res;
+		return index < objects.length;
 	}
+
+	private static boolean isEquals(Object element, Object pattern) {
+		
+		return element == null ? element == pattern : element.equals(pattern);
+	}
+	
+	public static <T> String  join(T[] objects, String delimetr) {
+		String res = "";
+		if (objects.length > 0) {
+			StringBuilder builder = new StringBuilder(objects[0].toString());
+			for (int i = 1; i < objects.length; i++) {
+				builder.append(delimetr).append(objects[i]);
+			}
+			res = builder.toString();
+		}
+		return res;
+	}	
 
 }
