@@ -14,7 +14,7 @@ public interface Collection<T> {
 	/******************************************/ 
 	/**
 	 * 
-	 * @param ar
+	 * @param ar 
 	 * @return array containing elements of a Collection
 	 * if ar refers to memory that is enough for all elements of Collection then new array is not created
 	 * otherwise there will be created new array.  

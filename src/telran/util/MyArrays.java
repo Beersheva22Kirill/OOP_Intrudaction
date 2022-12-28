@@ -9,7 +9,7 @@ public class MyArrays {
 	public static <T> void sort(T[] objects, Comparator<T> comparator) {
 		int length = objects.length;
 		do {
-			length--;
+			length--; 
 		} while (moveMaxAtEnd(objects,length,comparator));
 	}
 	
