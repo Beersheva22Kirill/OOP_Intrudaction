@@ -16,7 +16,7 @@ public class MyArrays {
 	public static <T> int binarySearch (T[] objects, T key, Comparator<T> comparator) {
 		int left = 0;
 		int right = objects.length - 1;
-		int middle = right/2;	
+		int middle = right/2;
 		while (left <= right && !objects[middle].equals(key)) {
 			if (comparator.compare(objects[middle],key) > 0) {
 				left = middle + 1;
@@ -47,36 +47,32 @@ public class MyArrays {
 	}
 
 	public static <T> T[] filter(T[] objects, Predicate<T> predicate) {
-			T[] res = removeElement(objects, predicate, true);			
-		return res;
-	}
-
-	private static <T> T[] removeElement(T[] objects, Predicate<T> predicate, boolean flagAction) {
-		//flagAction == true - filtering and flagAction == false - removing
-		int countPredicate = flagAction ?  getCountArray(objects, predicate, true) : getCountArray(objects, predicate, false);													
+		int countPredicate = getCountPredicate(objects, predicate);
+		
 		T[] res = Arrays.copyOf(objects, countPredicate);
 		int index = 0;
-		for (T element : objects) {
-			if (flagAction ? predicate.test(element) : !predicate.test(element)) {
-				res[index] = element;
-				index++;
+		for(T element: objects) {
+			if(predicate.test(element)) {
+				res[index++] = element;
 			}
-		}
+		}			
 		return res;
 	}
 
-	private static <T> int getCountArray(T[] objects, Predicate<T> predicate, boolean flag) {
-		int res = 0;		
-		for (T element : objects) {
-			if (flag ? predicate.test(element) : !predicate.test(element)) {
+
+	private static <T> int getCountPredicate(T[] objects, Predicate<T> predicate) {
+		int res = 0;
+		
+		for(T element: objects) {
+			if(predicate.test(element)) {
 				res++;
-			}			
+			}
 		}
 		return res;
 	}
 	
 	public static <T> T[] removeIf(T[] objects, Predicate<T> predicate) {	
-		T[] res = removeElement(objects, predicate, false);
+		T[] res = filter(objects, predicate.negate());
 		return res;
 	}
 	
