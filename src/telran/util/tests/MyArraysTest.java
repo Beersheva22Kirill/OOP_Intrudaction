@@ -1,6 +1,7 @@
 package telran.util.tests;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -145,24 +146,51 @@ class MyArraysTest {
 	}
 	
 	@Test
-	void removeIndexTest() {
-		String expectedStr = "ab, abd, abm";
+	void ArrayListMethodsTest() {
+		String[] expectedArr = {"ab","abb","abd"};
 		String[] strings = {"ab","abb","abd","abb","abm"};
 		ArrayList<String> array = new ArrayList<>();
+		
+		assertTrue(array.isEmpty());
+		
 		for (String string : strings) {
 			array.add(string);
 		}
 		
 		String subStr = "m";
 		Predicate<String> predSubStr = s -> s.contains(subStr);
-
-		//assertEquals(true,array.remove("ab"));
-		assertEquals("ab",array.remove(5));
-		//assertEquals(3,array.lastIndexOf("abb"));
-		//assertEquals(1,array.indexOf("abb"));
-		//assertEquals(true,array.removeIf(predSubStr));
-		//array.add(5,"ab");
+		assertEquals(0,array.indexOf("ab"));
+		assertEquals(3,array.lastIndexOf("abb"));
+		array.remove("ab");
+		assertEquals(-1,array.indexOf("ab"));
 		
+		assertEquals(3,array.indexOf("abm"));
+		array.removeIf(predSubStr);
+		assertEquals(-1,array.indexOf("abm"));
+		assertEquals(2,array.lastIndexOf("abb"));
+		
+		assertEquals(0,array.indexOf("abb"));
+		array.remove(0);
+		assertEquals(1,array.indexOf("abb"));
+		
+		array.add(4,"ab");
+		assertEquals(4,array.indexOf("ab"));
+		
+		array.set(3,"abm");
+		assertEquals(3,array.indexOf("abm"));
+		assertEquals("abm",array.get(3));
+		
+	}
+	
+	@Test
+	void toArraytest() {
+		String[] strings = {"ab","abb","abd","abb","abm"};
+		ArrayList<String> array = new ArrayList<>();
+		for (String string : strings) {
+			array.add(string);
+		}
+		assertArrayEquals(new String[] {"ab","abb","abd","abb","abm"}, array.toArray(new String[] {"a","a"}));
+		assertArrayEquals(new String[] {"ab","abb","abd","abb","abm",null,null,null}, array.toArray(new String[] {"a","a","a","a","a","a","a","a"}));
 	}
 	
 

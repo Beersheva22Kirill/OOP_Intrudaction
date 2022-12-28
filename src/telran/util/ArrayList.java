@@ -34,7 +34,6 @@ public class ArrayList<T> implements List<T> {
 		boolean res = false;
 		int index = indexOf(pattern);
 		if (index > -1) {
-			System.arraycopy(array, 0, array, 0, index);
 			System.arraycopy(array, index + 1, array, index, array.length - index - 1);
 			res = true;
 		}
@@ -42,24 +41,22 @@ public class ArrayList<T> implements List<T> {
 	}	
 
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean removeIf(Predicate<T> predicate) {
 		boolean res = false;
 		for (int i = 0; i < size; i++) {
-			if (predicate.test(array[i])) {
+			if (array[i] != null && predicate.test(array[i])) {
 				remove(i);
 				res = true;
 			}
 		}
-		// TODO Auto-generated method stub
 		return res;
 	}
 
 	@Override
 	public boolean isEmpty() {
 
-		return array.length == 0;
+		return size == 0;
 	}
 
 	@Override
@@ -79,23 +76,29 @@ public class ArrayList<T> implements List<T> {
 
 	@Override
 	public T[] toArray(T[] ar) {
-		// TODO Auto-generated method stub
-		return null;
+		if (ar.length < size) {
+			ar = Arrays.copyOf(array, size);
+		} else {
+			System.arraycopy(array, 0, ar, 0, size);
+			for (int i = size; i < ar.length; i++) {
+				ar[i] = null;
+			}
+		}
+		
+			
+		return ar;
 	}
 
 	@Override
 	public void add(int index, T element) {		
-		
-		System.arraycopy(array, 0, array, 0, index-1);
-			add(element);
+			array[index] = element;
 				System.arraycopy(array, index, array, index + 1, size - index - 1);
 	}
 
 	@Override
 	public T remove(int index) {
-		T element = array[index];
-			System.arraycopy(array, 0, array, 0, index);
-			System.arraycopy(array, index + 1, array, index, size - index - 1);
+		T element = array[index];		
+			System.arraycopy(array, index + 1, array, index, size - index);
 		return element;
 	}
 
@@ -103,7 +106,7 @@ public class ArrayList<T> implements List<T> {
 	public int indexOf(T pattern) {
 		
 		for (int i = 0; i < size; i++) {
-			if (array[i].equals(pattern)) {
+			if (isEquals(pattern, i)) {
 				return i;
 			}
 		}
@@ -111,27 +114,32 @@ public class ArrayList<T> implements List<T> {
 		
 	}
 
+	private boolean isEquals(T pattern, int i) {
+		return array[i] == null ? pattern == null : array[i].equals(pattern);
+	}
+
 	@Override
 	public int lastIndexOf(T pattern) {
-		int index = -1;
-		for (int i = 0; i < array.length; i++) {
-			if (array[i] != null && array[i].equals(pattern)) {
-				index = i;
+		for (int i = array.length - 1; i > 0; i--) {
+			if (isEquals(pattern, i)) {
+				return i;
 			}
 		}
-		return index;
+		return -1;
 	}
 
 	@Override
 	public T get(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return array[index];
 	}
 
 	@Override
 	public void set(int index, T element) {
-		// TODO Auto-generated method stub
-
+		if (array[index] != null) {
+			remove(index);
+		}		
+		add(index, element);
 	}
 
 }
