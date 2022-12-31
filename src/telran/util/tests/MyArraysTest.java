@@ -37,7 +37,6 @@ class MyArraysTest {
 	}
 	
 	@Test
-	@Disabled
 	void sortTest() {
 		String[] strings = {"abcd","lmn","zz"};
 		String[] expected = {"zz", "lmn", "abcd"};			
@@ -47,7 +46,6 @@ class MyArraysTest {
 	}
 	
 	@Test	
-	@Disabled
 	void evenOddTest() {
 	Integer expected[] = {-8, 2, 10, 100, 47, 13, 7};
 	MyArrays.sort(numbers, new EvenOddComparator());
@@ -55,7 +53,6 @@ class MyArraysTest {
 	}
 	
 	@Test
-	@Disabled
 	void binarySearchTest() {
 	Integer numbersArr[] = {-8,6,9,10,11,15,16,23};
 	assertEquals( 3, MyArrays.binarySearch(numbersArr, 10, new IntegerBSComparator()));
@@ -67,14 +64,12 @@ class MyArraysTest {
 	}
 	
 	@Test
-	@Disabled
 	void binarySearchStrTest() {		
 	assertEquals( 0, MyArrays.binarySearch(strings, "ab", new StringsComparator()));
 	assertEquals( -1, MyArrays.binarySearch(strings, "a", new StringsComparator()));
 	}
 	
 	@Test
-	@Disabled
 	void filterTest() {
 		int dividor = 2;
 		String subStr = "m";
@@ -87,7 +82,6 @@ class MyArraysTest {
 	}
 	
 	@Test
-	@Disabled
 	void removeIfTest() {
 		int dividor = 2;
 		String subStr = "m";
@@ -99,7 +93,6 @@ class MyArraysTest {
 		assertArrayEquals(expectedNum, MyArrays.removeIf(numbers,predEven));
 	}
 	@Test
-	@Disabled
 	void removeRepeatTest() {
 		String[] expectedStr = {"ab","abb","abd","abm"};
 		String[] strings = {"ab","abb","abd","ab","abb","abm"};
@@ -110,7 +103,6 @@ class MyArraysTest {
 	}
 	
 	@Test
-	@Disabled
 	void containsTest() {
 		String[] strings = {"ab","abb","abd",null,"ab","abb","abm"};
 		Integer[] numbers =  {1, 1, 2, 2, 1, 3,null,5, 5, 4, 4, 4, 9};
@@ -123,7 +115,6 @@ class MyArraysTest {
 	}
 	
 	@Test
-	@Disabled
 	void joinFunctionalTest() {
 		
 		String expectedStr = "ab, abb, abd, abm";
@@ -131,7 +122,6 @@ class MyArraysTest {
 		assertEquals(expectedStr, MyArrays.join(strings, ", "));	
 	}
 	@Test
-	@Disabled
 	void joinPerfomanceTest() {
 		Integer[] largrArray = getLargeNumbersArray();
 		for (int i = 0; i < N_RUNS; i++) {
@@ -145,53 +135,6 @@ class MyArraysTest {
 		return res;
 	}
 	
-	@Test
-	void ArrayListMethodsTest() {
-		String[] expectedArr = {"ab","abb","abd"};
-		String[] strings = {"ab","abb","abd","abb","abm"};
-		ArrayList<String> array = new ArrayList<>();
-		
-		assertTrue(array.isEmpty());
-		
-		for (String string : strings) {
-			array.add(string);
-		}
-		
-		String subStr = "m";
-		Predicate<String> predSubStr = s -> s.contains(subStr);
-		assertEquals(0,array.indexOf("ab"));
-		assertEquals(3,array.lastIndexOf("abb"));
-		array.remove("ab");
-		assertEquals(-1,array.indexOf("ab"));
-		
-		assertEquals(3,array.indexOf("abm"));
-		array.removeIf(predSubStr);
-		assertEquals(-1,array.indexOf("abm"));
-		assertEquals(2,array.lastIndexOf("abb"));
-		
-		assertEquals(0,array.indexOf("abb"));
-		array.remove(0);
-		assertEquals(1,array.indexOf("abb"));
-		
-		array.add(4,"ab");
-		assertEquals(4,array.indexOf("ab"));
-		
-		array.set(3,"abm");
-		assertEquals(3,array.indexOf("abm"));
-		assertEquals("abm",array.get(3));
-		
-	}
-	
-	@Test
-	void toArraytest() {
-		String[] strings = {"ab","abb","abd","abb","abm"};
-		ArrayList<String> array = new ArrayList<>();
-		for (String string : strings) {
-			array.add(string);
-		}
-		assertArrayEquals(new String[] {"ab","abb","abd","abb","abm"}, array.toArray(new String[] {"a","a"}));
-		assertArrayEquals(new String[] {"ab","abb","abd","abb","abm",null,null,null}, array.toArray(new String[] {"a","a","a","a","a","a","a","a"}));
-	}
 	
 
 }
