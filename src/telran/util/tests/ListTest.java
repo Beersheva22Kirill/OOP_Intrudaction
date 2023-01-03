@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -92,14 +94,14 @@ class ListTest extends CollectionsTest {
 	@Test
 	@Override
 	void testIterator() {	
-		Integer [] expected = {10, 100, -5, 134, 280, 120, 15};
 		Integer[] array  = new Integer[list.size()];
 		Iterator<Integer> iterator = list.iterator();
 		int i = 0;
 		while(iterator.hasNext()){       
             array[i++] = iterator.next();
 		}
-		assertArrayEquals(expected, array);
+		assertArrayEquals(numbers, array);
+		assertThrowsExactly(NoSuchElementException.class, () -> iterator.next());
 	}
 
 
