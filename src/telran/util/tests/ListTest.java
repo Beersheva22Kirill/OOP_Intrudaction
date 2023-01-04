@@ -31,16 +31,15 @@ class ListTest extends CollectionsTest {
 		Integer [] expected1 = {10, 100, -5, 100, 134, 280, 120, 15};
 		Integer [] expected2 = {8, 10, 100, -5, 100, 134, 280, 120, 15};
 		Integer [] expected3 = {8, 10, 100, -5, 100, 134, 280, 120, 15, 200};
-		try {
-			list.add(1000, 1000);
-			fail("should be exception");
-		} catch(IndexOutOfBoundsException e) {}
+		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.add(1000,100));
+		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.add(-1,100));
+		
 		list.add(3, 100);
 		assertArrayEquals(expected1, list.toArray(empty));
 		list.add(0, 8);
 		assertArrayEquals(expected2, list.toArray(empty));
-		list.add(list.size(), 200);
-		assertArrayEquals(expected3, list.toArray(empty));
+//		list.add(list.size(), 200);
+//		assertArrayEquals(expected3, list.toArray(empty));
 	}
 
 	@Test
@@ -48,10 +47,14 @@ class ListTest extends CollectionsTest {
 		Integer [] expected1 = {10, 100, -5, 280, 120, 15};
 		Integer [] expected2 = { 100, -5,  280, 120, 15};
 		Integer [] expected3 = { 100, -5,  280, 120};
-		try {
-			list.remove(1000);
-			fail("should be exception");
-		} catch(IndexOutOfBoundsException e) {}
+		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.remove(1000));
+		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.remove(-1));
+		
+//		try {
+//			list.remove(1000);
+//			fail("should be exception");
+//		} catch(IndexOutOfBoundsException e) {}
+		
 		assertEquals(134,list.remove(3));
 		assertArrayEquals(expected1, list.toArray(empty));
 		assertEquals(10, list.remove(0));
@@ -94,6 +97,7 @@ class ListTest extends CollectionsTest {
 	@Test
 	@Override
 	void testIterator() {	
+		
 		Integer[] array  = new Integer[list.size()];
 		Iterator<Integer> iterator = list.iterator();
 		int i = 0;

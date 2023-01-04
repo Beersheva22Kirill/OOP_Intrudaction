@@ -65,14 +65,17 @@ public class ArrayList<T> implements List<T> {
 	
 	@Override
 	public boolean removeIf(Predicate<T> predicate) {
-		//FIXME write implementation of O[N]. Hint working with only indexes
 		
 		int oldSize = size;
-		for (int i = size - 1; i >= 0; i--) {
-			if (predicate.test(array[i])) {
-				remove(i);
+		int tIndex = 0;
+		for(int i = 0; i < oldSize; i++) {
+			if(predicate.test(array[i])) {
+				size--;
+			} else {
+				array[tIndex++] = array[i];
 			}
 		}
+		Arrays.fill(array,size,oldSize,null);
 		return oldSize > size;
 	}
 	
@@ -87,12 +90,6 @@ public class ArrayList<T> implements List<T> {
 	public int size() {
 	
 		return size;
-	}
-
-	@Override
-	public boolean contains(T pattern) {
-
-		return indexOf(pattern) > -1;
 	}
 
 	@Override
@@ -146,11 +143,6 @@ public class ArrayList<T> implements List<T> {
 		return array[i] == null ? pattern == null : array[i].equals(pattern);
 	}
 	
-	private void checkIndex(int index, boolean sizeIncluded) {
-		int sizeDelta = sizeIncluded ? 0 : 1;
-		if (index < 0 || index > size - sizeDelta) {
-			throw new IndexOutOfBoundsException(index);}
-		}
 
 	@Override
 	public int lastIndexOf(T pattern) {
