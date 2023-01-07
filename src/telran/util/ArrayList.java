@@ -6,13 +6,13 @@ import java.util.NoSuchElementException;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
-public class ArrayList<T> implements List<T> {
+public class ArrayList<T> extends AbstractCollection<T> implements List<T>  {
 	static final int DEFAULT_CAPACITY = 16;
 	private T [] array;
-	private int size;
 	
 	private class ArrayListIterator implements Iterator<T>{
 		int current = 0;
+		boolean flagNext = false;
 		
 		@Override
 		public boolean hasNext() {
@@ -25,7 +25,17 @@ public class ArrayList<T> implements List<T> {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
+			flagNext = true;
 			return array[current++];
+		}
+		
+		@Override
+		public void remove() {
+			if (!flagNext) {
+				throw new IllegalStateException(); 
+			} 
+		    ArrayList.this.remove(current - 1);
+			flagNext = false;
 		}
 		
 	}
@@ -49,19 +59,6 @@ public class ArrayList<T> implements List<T> {
 	private void reallocate() {
 		array = Arrays.copyOf(array, array.length * 2);
 	}
-
-	@Override
-	public boolean remove(T pattern) {
-		boolean res = false;
-		int index = indexOf(pattern);
-		if (index > -1) {
-			remove(index);
-			res = true;
-		}
-		
-		return res;
-	}	
-	
 	
 	@Override
 	public boolean removeIf(Predicate<T> predicate) {
@@ -77,30 +74,6 @@ public class ArrayList<T> implements List<T> {
 		}
 		Arrays.fill(array,size,oldSize,null);
 		return oldSize > size;
-	}
-	
-	
-	@Override
-	public boolean isEmpty() {
-
-		return size == 0;
-	}
-
-	@Override
-	public int size() {
-	
-		return size;
-	}
-
-	@Override
-	public T[] toArray(T[] ar) {
-			if(ar.length < size) {
-				ar = Arrays.copyOf(array, size);
-			}
-			System.arraycopy(array, 0, ar, 0, size);
-			Arrays.fill(ar, size, ar.length, null);
-			
-		return ar;
 	}
 
 	@Override
@@ -131,23 +104,18 @@ public class ArrayList<T> implements List<T> {
 	public int indexOf(T pattern) {
 		
 		for (int i = 0; i < size; i++) {
-			if (isEquals(pattern, i)) {
+			if (isEquals(pattern, array[i])) {
 				return i;
 			}
 		}
 		return -1;
 		
-	}
-
-	private boolean isEquals(T pattern, int i) {
-		return array[i] == null ? pattern == null : array[i].equals(pattern);
-	}
-	
+	}	
 
 	@Override
 	public int lastIndexOf(T pattern) {
 		for (int i = array.length - 1; i > 0; i--) {
-			if (isEquals(pattern, i)) {
+			if (isEquals(pattern, array[i])) {
 				return i;
 			}
 		}

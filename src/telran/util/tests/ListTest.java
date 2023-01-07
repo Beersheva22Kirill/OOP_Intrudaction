@@ -38,8 +38,8 @@ class ListTest extends CollectionsTest {
 		assertArrayEquals(expected1, list.toArray(empty));
 		list.add(0, 8);
 		assertArrayEquals(expected2, list.toArray(empty));
-//		list.add(list.size(), 200);
-//		assertArrayEquals(expected3, list.toArray(empty));
+		list.add(list.size(), 200);
+		assertArrayEquals(expected3, list.toArray(empty));
 	}
 
 	@Test
@@ -48,13 +48,7 @@ class ListTest extends CollectionsTest {
 		Integer [] expected2 = { 100, -5,  280, 120, 15};
 		Integer [] expected3 = { 100, -5,  280, 120};
 		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.remove(1000));
-		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.remove(-1));
-		
-//		try {
-//			list.remove(1000);
-//			fail("should be exception");
-//		} catch(IndexOutOfBoundsException e) {}
-		
+		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.remove(-1));		
 		assertEquals(134,list.remove(3));
 		assertArrayEquals(expected1, list.toArray(empty));
 		assertEquals(10, list.remove(0));
@@ -101,9 +95,9 @@ class ListTest extends CollectionsTest {
 		Integer[] array  = new Integer[list.size()];
 		Iterator<Integer> iterator = list.iterator();
 		int i = 0;
-		while(iterator.hasNext()){       
-            array[i++] = iterator.next();
-		}
+			while(iterator.hasNext()){       
+				array[i++] = iterator.next();
+			}
 		assertArrayEquals(numbers, array);
 		assertThrowsExactly(NoSuchElementException.class, () -> iterator.next());
 	}

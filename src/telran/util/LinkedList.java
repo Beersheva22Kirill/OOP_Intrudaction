@@ -1,11 +1,15 @@
 package telran.util;
 
+import static org.junit.Assert.assertFalse;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-public class LinkedList<T> implements List<T> {
+import org.junit.jupiter.params.shadow.com.univocity.parsers.common.processor.AbstractRowProcessor;
+
+public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 
 	private static class Node<T> {
 		T object;
@@ -19,13 +23,14 @@ public class LinkedList<T> implements List<T> {
 	
 	private Node<T> head;
 	private Node<T> tail;
-	private int size;
 	
 	private class LinkedListIterator implements Iterator<T> {
+		Node<T> current = head;
+		boolean flagNext = false;
 		@Override
 		public boolean hasNext() {
 			
-			return head != null;
+			return current != null;
 		}
 
 		@Override
@@ -33,9 +38,19 @@ public class LinkedList<T> implements List<T> {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
-			T res = head.object;
-				head = head.next;
+			T res = current.object;
+					current = current.next;
+					flagNext = true;
 			return res;
+		}
+		@Override
+		public void remove() {
+			if (!flagNext) {
+				throw new IllegalStateException(); 
+			}
+			Node<T> removedNode = current == null ? tail : current.previus;
+			removeNode(removedNode);
+			flagNext = false;
 		}
 		
 	}
@@ -53,69 +68,6 @@ public class LinkedList<T> implements List<T> {
 		}
 		size++;
 		return true;
-	}
-
-	@Override
-	public boolean remove(T pattern) {
-		boolean res = false;
-		int index = indexOf(pattern);
-		if (index > -1) {
-			remove(index);
-			res = true;
-		}
-		return res;
-	}
-
-	@Override
-	public boolean removeIf(Predicate<T> predicate) {
-		int oldSize = size;
-		Node<T> current = getNode(0);
-
-		while (current != tail) {
-			if(predicate.test(current.object)) {
-				remove(current.object);
-			}
-			current = current.next;
-		}
-		
-		if(predicate.test(current.object)) {
-			head = null;
-			size--;
-		}
-		
-		return oldSize > size;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		
-		return size == 0;
-	}
-
-	@Override
-	public int size() {
-		
-		return size;
-	}
-
-	@Override
-	public T[] toArray(T[] ar) {
-		if (ar.length < size) {
-			ar = Arrays.copyOf(ar, size);
-		} 
-		Node<T> current = head;
-		for (int i = 0; i < size; i++) {
-			ar[i] = current.object;
-			current = current.next;
-		}
-		Arrays.fill(ar, size, ar.length, null);
-		return ar;
-	}
-
-	@Override
-	public Iterator<T> iterator() {
-		
-		return new LinkedListIterator();
 	}
 
 	@Override
@@ -172,58 +124,58 @@ public class LinkedList<T> implements List<T> {
 		head = node;
 		size++;
 	}
+	
+	private void removeNode(Node<T> current) {
+		if (current == head) {
+			removeHead();
+		}else if (current == tail) {
+			removeTail();
+		}else {
+			removeMiddle(current);
+		}
+		size--;
+		
+	}
 
 	@Override
 	public T remove(int index) {
-		T nodeReturn;
-		if (index == size) {
-			nodeReturn = removeTail();
-		} else if (index == 0) {
-			nodeReturn = removeHead();
-		}else {
-			nodeReturn = removeMiddle(index);
-		}
-		return nodeReturn;
-	}
-
-	private T removeMiddle(int index) {
 		checkIndex(index, false);
 		Node<T> node = getNode(index);
-		Node<T> nodeNext = getNode(index + 1);
-		Node<T> nodePrev = node.previus;
-		
+		if (node == null) {
+			throw new IllegalStateException("removedNode in method remove(int index) is null");
+		}
+		removeNode(node);
+		return node.object;
+	}
+	
+	private void removeMiddle(Node<T> current) {
+		Node<T> nodePrev = current.previus;
+		Node<T> nodeNext = current.next;
 		nodePrev.next = nodeNext;
-		nodeNext.previus = nodePrev;
-		
-		Node<T> nodeReturn = node;
-		
-		node = null;
-		size--;
-		return nodeReturn.object;
+		nodeNext.previus = nodePrev;		
 	}
 
-	private T removeHead() {
-		Node<T> nodeReturn = getNode(0);
-		head = head.next;
-		head.previus = null;
-		size--;
-		return nodeReturn.object;
+	private void removeHead() {		
+		if (head.next == null) {
+			head = tail = null;
+		} else {
+			Node<T> nextNode = head.next;
+			nextNode.previus = null;
+			head = nextNode;
+		}
 	}
 
-	private T removeTail() {
-		Node<T> nodeReturn = getNode(size - 1);
-		tail = tail.previus;
-		tail.next = null;
-		size--;
-		return nodeReturn.object;
-		
+	private void removeTail() {
+		Node<T> previus = tail.previus;
+		previus.next = null;
+		tail = previus;		
 	}
 
 	@Override
 	public int indexOf(T pattern) {
 		Node<T> current = head; 
 		int i = 0;	
-		while (i < size && !isEquals(pattern, current.object)) {
+		while (current !=null && !isEquals(pattern, current.object)) {
 			i++;
 			current = current.next;
 		}
@@ -231,9 +183,7 @@ public class LinkedList<T> implements List<T> {
 		return i < size ? i : -1;
 	}
 	
-	private boolean isEquals(T pattern, T object) {
-		return object == null ? pattern == null : object.equals(pattern);
-	}
+	
 	@Override
 	public int lastIndexOf(T pattern) {
 		Node<T> current = tail; 
@@ -258,5 +208,48 @@ public class LinkedList<T> implements List<T> {
 		node.object = element;
 		
 	}
+	
+	@Override
+	public Iterator<T> iterator() {
+		
+		return new LinkedListIterator();
+	}
+	
+	/************************************************************************************/
+	//Comments only for LinkedList task of loop existence
+	/**
+	 * sets next of element at index1 to element at index2
+	 */
+	public void setNext(int index1, int index2) {
+		if (index1 < index2) {
+			throw new IllegalArgumentException();
+		}
+		Node<T> node1 = getNode(index1);
+			Node<T> node2 = getNode(index2);
+				node1.next = node2;		
+	}
+	
+	/**
+	 * //method returns true if there is loop by next reference referring to a previous element
+		// use neither "size" nor "size()"
+		// no use prev filed in a Node
+		// O[N]  with no using collections
+	 */
+	public boolean hasLoop() {
+				
+		Node<T> current = head;
+		String references = "";;
+		boolean res = false;
+		while(current != null && !res) {
+			if (references.indexOf(current.toString()) == -1) {
+				references += current;	
+				current = current.next;
+			} else {
+				res = true;
+			}
+		}		
+		return res;
+	}
+	/*********************************************************************************************/
 
 }
