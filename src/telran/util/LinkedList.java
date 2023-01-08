@@ -238,15 +238,18 @@ public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 	public boolean hasLoop() {
 				
 		Node<T> current = head;
-		String references = "";;
-		boolean res = false;
-		while(current != null && !res) {
-			if (references.indexOf(current.toString()) == -1) {
-				references += current;	
-				current = current.next;
-			} else {
+		Node<T> current_next = head;
+		boolean res = false;		
+		while (current_next != null && !res) {
+			current = current.next;
+			current_next = current_next.next;
+			if (current_next != null) {
+				current_next = current_next.next;
+			} 
+			if(current == current_next) {
 				res = true;
 			}
+			
 		}		
 		return res;
 	}
