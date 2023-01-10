@@ -22,9 +22,9 @@ public interface Collection<T> extends Iterable<T>{
 	}
 	
 	default T[] toArray(T[] array) {
-		
+		int size = size();
 		Iterator<T> iterator = iterator();
-		if (array.length < size()) {
+		if (array.length < size) {
 			array = Arrays.copyOf(array, size());
 		} 	
 		int index = 0;
@@ -32,7 +32,7 @@ public interface Collection<T> extends Iterable<T>{
 			T object = iterator.next();
 			array[index++] = object;
 		}
-		Arrays.fill(array, size(), array.length, null);
+		Arrays.fill(array, size, array.length, null);
 		return array;
 	}
 	

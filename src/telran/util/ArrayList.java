@@ -34,7 +34,7 @@ public class ArrayList<T> extends AbstractCollection<T> implements List<T>  {
 			if (!flagNext) {
 				throw new IllegalStateException(); 
 			} 
-		    ArrayList.this.remove(current - 1);
+		    ArrayList.this.remove(--current);
 			flagNext = false;
 		}
 		
@@ -60,22 +60,6 @@ public class ArrayList<T> extends AbstractCollection<T> implements List<T>  {
 		array = Arrays.copyOf(array, array.length * 2);
 	}
 	
-	@Override
-	public boolean removeIf(Predicate<T> predicate) {
-		
-		int oldSize = size;
-		int tIndex = 0;
-		for(int i = 0; i < oldSize; i++) {
-			if(predicate.test(array[i])) {
-				size--;
-			} else {
-				array[tIndex++] = array[i];
-			}
-		}
-		Arrays.fill(array,size,oldSize,null);
-		return oldSize > size;
-	}
-
 	@Override
 	public void add(int index, T element) {				
 				checkIndex(index, true);
