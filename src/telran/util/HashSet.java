@@ -158,24 +158,5 @@ public class HashSet<T> extends AbstractCollection<T> implements Set<T> {
 		return new HashSetIterator();
 	}
 	
-	//FEXME The following method is only for initial test 
-	// After HashTableIterator implementation is done the method should be removed
-//	@Override
-//	public T[] toArray(T[] array) {
-//		if (array.length < size) {
-//			array = Arrays.copyOf(array, size);
-//			int index = 0;
-//			for (List<T> list : hashTable) {
-//				if (list != null) {
-//					for (T object : list) {
-//						array[index++] = object;
-//					}
-//				}
-//			}
-//		}
-//		return array;
-//	}
-
-
 
 }
