@@ -2,6 +2,7 @@ package telran.util;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 
@@ -18,17 +19,40 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 	}
 	
 	private class TreeSetIterator implements Iterator<T> {
-		//TODO
+		private int currentElement = 0;
+		Node<T> current = root;
+		
+
 		@Override
 		public boolean hasNext() {
-			// TODO Auto-generated method stub
-			return false;
+		
+			return currentElement < size;
 		}
 
 		@Override
 		public T next() {
-			// TODO Auto-generated method stub
-			return null;
+			T res = null;
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			res = current.object;
+			currentElement++;
+			if (current.right == null) {
+				current = current.parent;
+				
+			} else {
+				current = current.right;
+				while (current.left != null) {
+					current = current.left;
+				}
+			}
+
+			return res;
+		}
+
+		public TreeSetIterator() {
+			while (current.left != null)	
+			current = current.left;
 		}
 		
 	}
@@ -42,10 +66,45 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 	public TreeSet() {
 		this((Comparator<T>) Comparator.naturalOrder());
 	}
+	
+	
 	@Override
-	public boolean add(T element) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean add(T element) {	
+		Node<T> node = new Node<>(element);		
+		boolean flagAdd = false;
+		if (size != 0) {
+			Node<T> current = root;
+			if(!contains(element)) {
+				while(!flagAdd) {
+					if (comparator.compare(node.object, current.object) == -1) {
+						if (current.left != null) {
+							current = current.left;
+						} else {
+							current.left = node;
+							node.parent = current;
+							flagAdd = true;
+							size++;
+						}
+						
+					} else {
+						if (current.right != null) {
+							current = current.right;
+						} else {
+							current.right = node;
+							node.parent = current;
+							flagAdd = true;
+							size++;
+						}
+					}
+				}
+			} 				
+		} else {
+			root = node; 
+			flagAdd = true;
+			size++;
+		}
+
+		return flagAdd;
 	}
 
 	@Override
@@ -56,8 +115,38 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 
 	@Override
 	public boolean contains(T pattern) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean next = true;
+		boolean flagContains = false;
+		if (size != 0) {
+			Node<T> current = root;
+			while(next) {
+				if (!current.object.equals(pattern)) {
+					if (comparator.compare(pattern, current.object) == -1) {
+						if (current.left != null) {
+							current = current.left;
+						} else {
+							next = false;
+						}
+						
+					} else if (comparator.compare(pattern, root.object) == 1) {
+						if (current.right != null) {
+							current = current.right;
+						} else {
+							next = false;
+						}
+					}
+				} else {
+					flagContains = true;
+					next = false;
+				}
+			
+			}
+				
+		} else {
+			flagContains = false; 
+		}
+		
+		return flagContains;
 	}
 
 	@Override

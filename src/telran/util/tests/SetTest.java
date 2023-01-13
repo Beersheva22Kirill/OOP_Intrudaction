@@ -19,11 +19,11 @@ class SetTest extends CollectionsTest{
 		super.setUp();
 		set = (Set<Integer>) collection;
 	}
-	
+	@Test
 	@Override
 	void testAdd() {
-		assertTrue(set.add(Integer.MAX_VALUE));
-		assertFalse(set.add(Integer.MAX_VALUE));
+		assertTrue(set.add(876));
+		assertFalse(set.add(876));
 	}
 	
 	@Test
