@@ -21,7 +21,7 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 	private class TreeSetIterator implements Iterator<T> {
 		private int currentElement = 0;
 		Node<T> current = root;
-		
+		Node<T> rightParent = null;
 
 		@Override
 		public boolean hasNext() {
@@ -31,28 +31,42 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 
 		@Override
 		public T next() {
-			T res = null;
+			
 			if (!hasNext()) {
 				throw new NoSuchElementException();
-			}
-			res = current.object;
+			}	
+			T res = current.object;
 			currentElement++;
+			if(hasNext()) {
 			if (current.right == null) {
-				current = current.parent;
+				while(comparator.compare(current.object, current.parent.object) > 0) {
+					current = current.parent;
+				}
+					current = current.parent;
 				
-			} else {
-				current = current.right;
-				while (current.left != null) {
-					current = current.left;
+		} else {
+			current = current.right;
+			while (current.left != null) {
+				rightParent = current;
+				current = current.left;
 				}
 			}
+			}
+			
+			
 
 			return res;
 		}
 
+
 		public TreeSetIterator() {
-			while (current.left != null)	
-			current = current.left;
+			while (current.left != null) {
+				rightParent = current;
+				current = current.left;
+			}
+				
+			
+
 		}
 		
 	}
@@ -128,7 +142,7 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 							next = false;
 						}
 						
-					} else if (comparator.compare(pattern, root.object) == 1) {
+					} else if (comparator.compare(pattern, current.object) == 1) {
 						if (current.right != null) {
 							current = current.right;
 						} else {

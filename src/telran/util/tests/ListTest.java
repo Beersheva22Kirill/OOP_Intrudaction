@@ -28,9 +28,9 @@ class ListTest extends CollectionsTest {
 	
 	@Test
 	void testAddInt() {
-		Integer [] expected1 = {10, 100, -5, 100, 134, 280, 120, 15};
-		Integer [] expected2 = {8, 10, 100, -5, 100, 134, 280, 120, 15};
-		Integer [] expected3 = {8, 10, 100, -5, 100, 134, 280, 120, 15, 200};
+		Integer [] expected1 = {10, 100, -5, 100, 134, 280, 120, 15, 5, 11, 4};
+		Integer [] expected2 = {8, 10, 100, -5, 100, 134, 280, 120, 15, 5, 11, 4};
+		Integer [] expected3 = {8, 10, 100, -5, 100, 134, 280, 120, 15, 5, 11, 4, 200};
 		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.add(1000,100));
 		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.add(-1,100));
 		
@@ -44,16 +44,17 @@ class ListTest extends CollectionsTest {
 
 	@Test
 	void testRemoveInt() {
-		Integer [] expected1 = {10, 100, -5, 280, 120, 15};
-		Integer [] expected2 = { 100, -5,  280, 120, 15};
-		Integer [] expected3 = { 100, -5,  280, 120};
+		Integer [] expected1 = {10, 100, -5, 280, 120, 15, 5, 11, 4};
+		Integer [] expected2 = { 100, -5,  280, 120, 15, 5, 11, 4};
+		Integer [] expected3 = { 100, -5,  280, 120, 15, 5, 11};
+	
 		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.remove(1000));
 		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.remove(-1));		
 		assertEquals(134,list.remove(3));
 		assertArrayEquals(expected1, list.toArray(empty));
 		assertEquals(10, list.remove(0));
 		assertArrayEquals(expected2, list.toArray(empty));
-		assertEquals(15,list.remove(list.size() - 1));
+		assertEquals(4,list.remove(list.size() - 1));
 		assertArrayEquals(expected3, list.toArray(empty));
 	}
 

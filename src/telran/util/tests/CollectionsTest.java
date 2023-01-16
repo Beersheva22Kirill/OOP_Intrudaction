@@ -14,7 +14,7 @@ import telran.util.List;
 
 public abstract class  CollectionsTest {
 
-	protected Integer [] numbers = {10, 100, -5, 134, 280, 120, 15};
+	protected Integer [] numbers = {10, 100, -5,  134, 280, 120, 15, 5, 11, 4};
 	protected Integer ar[] = new Integer[numbers.length + 100];
 	protected Collection<Integer> collection;
 	protected Integer [] empty = {};
@@ -31,7 +31,7 @@ public abstract class  CollectionsTest {
 
 	@Test
 	void testRemove() {
-		Integer [] expected = {10, 100, -5,  280, 120, 15};
+		Integer [] expected = {10, 100, -5,  280, 120, 15 , 5, 11, 4};
 		assertTrue(collection.remove((Integer)134));
 		Arrays.sort(expected);
 		Integer[] actual = collection.toArray(empty);
@@ -42,9 +42,11 @@ public abstract class  CollectionsTest {
 
 	@Test
 	void testRemoveIf() {
-		Integer []expected = {-5, 15};
+		Integer []expected = {-5, 15, 5, 11};
 		assertTrue(collection.removeIf(n -> n % 2 == 0));
 		Integer[] actual = collection.toArray(empty);
+		Arrays.sort(actual);
+		Arrays.sort(expected);
 		assertArrayEquals(expected, actual);
 		assertFalse(collection.removeIf(n -> n % 2 == 0));
 		assertTrue(collection.removeIf(n -> true));
