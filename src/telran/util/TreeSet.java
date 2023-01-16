@@ -89,7 +89,7 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 			Node<T> current = root;
 			if(!contains(element)) {
 				while(!flagAdd) {
-					if (comparator.compare(node.object, current.object) == -1) {
+					if (comparator.compare(node.object, current.object) < 0) {
 						if (current.left != null) {
 							current = current.left;
 						} else {
@@ -134,14 +134,14 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 			Node<T> current = root;
 			while(next) {
 				if (!current.object.equals(pattern)) {
-					if (comparator.compare(pattern, current.object) == -1) {
+					if (comparator.compare(pattern, current.object) < 0) {
 						if (current.left != null) {
 							current = current.left;
 						} else {
 							next = false;
 						}
 						
-					} else if (comparator.compare(pattern, current.object) == 1) {
+					} else if (comparator.compare(pattern, current.object) > 0) {
 						if (current.right != null) {
 							current = current.right;
 						} else {
