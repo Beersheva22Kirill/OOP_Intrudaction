@@ -47,7 +47,6 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 		} else {
 			current = current.right;
 			while (current.left != null) {
-				rightParent = current;
 				current = current.left;
 				}
 			}
