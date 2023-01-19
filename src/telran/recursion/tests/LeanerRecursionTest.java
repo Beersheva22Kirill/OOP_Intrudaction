@@ -8,11 +8,14 @@ class LeanerRecursionTest {
 
 	@Test
 	void fTest() {
-		f();
+		f(5);
 	}
 	
-	void f() {
-		f();
+	void f(int a) {
+		if (a > 5) {
+			f(a);
+		}
+		
 	}
 
 }
