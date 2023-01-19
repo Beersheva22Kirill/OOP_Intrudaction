@@ -118,7 +118,7 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 
 	@Override
 	public boolean remove(T pattern) {
-		//Not implemented yet
+		//TODO
 		return false;
 	}
 
@@ -133,6 +133,32 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 	public Iterator<T> iterator() {
 		
 		return new TreeSetIterator();
+	}
+
+	public Integer floor(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Integer celling(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Integer first() {
+		Node<T> current = root;
+		while(current.left != null) {
+			current = current.left;
+		}
+		return null;
+	}
+
+	public Integer last() {
+		Node<T> current = root;
+		while(current.right != null) {
+			current = current.right;
+		}
+		return null;
 	}
 
 }
