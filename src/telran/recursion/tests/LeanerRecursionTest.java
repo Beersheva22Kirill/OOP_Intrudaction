@@ -8,7 +8,7 @@ class LeanerRecursionTest {
 
 	@Test
 	void fTest() {
-		
+		f();
 	}
 	
 	void f() {
