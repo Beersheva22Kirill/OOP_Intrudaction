@@ -13,7 +13,7 @@ class LeanerRecursionTest {
 	
 	void f(int a) {
 		if (a > 5) {
-			f(a);
+			f(a - 1);
 		}
 		
 	}
