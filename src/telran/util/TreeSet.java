@@ -19,14 +19,13 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 	}
 	
 	private class TreeSetIterator implements Iterator<T> {
-		private int currentElement = 0;
+
 		Node<T> current = root;
-		Node<T> rightParent = null;
 
 		@Override
 		public boolean hasNext() {
 		
-			return currentElement < size;
+			return current != null;
 		}
 
 		@Override
@@ -36,34 +35,16 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 				throw new NoSuchElementException();
 			}	
 			T res = current.object;
-			currentElement++;
-			if(hasNext()) {
-			if (current.right == null) {
-				while(comparator.compare(current.object, current.parent.object) > 0) {
-					current = current.parent;
-				}
-					current = current.parent;
-				
-		} else {
-			current = current.right;
-			while (current.left != null) {
-				current = current.left;
-				}
-			}
-			}
+			current = getNextCurrent(current);
 			
-			
-
 			return res;
 		}
 
 
 		public TreeSetIterator() {
-			while (current.left != null) {
-				rightParent = current;
-				current = current.left;
+			if (current != null) {
+				current = getLeastNode(current);
 			}
-				
 			
 
 		}
@@ -75,7 +56,26 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 	public TreeSet(Comparator<T> comparator) {
 		this.comparator = comparator;
 	}
-	
+
+	private Node<T> getNextCurrent(Node<T> current) {
+		
+		return current.right == null ? getGreaterParent(current) : getLeastNode(current.right);
+	}
+
+	private Node<T> getGreaterParent(Node<T> current) {
+		while (current.parent != null && current.parent.left != current) {
+			current = current.parent;
+		}
+		return current.parent;
+	}
+
+	private Node<T> getLeastNode(Node<T> current) {
+		while (current.left != null) {
+			current = current.left;
+		}
+		return current;
+	}
+
 	public TreeSet() {
 		this((Comparator<T>) Comparator.naturalOrder());
 	}
@@ -83,41 +83,37 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 	
 	@Override
 	public boolean add(T element) {	
-		Node<T> node = new Node<>(element);		
 		boolean flagAdd = false;
-		if (size != 0) {
-			Node<T> current = root;
-			if(!contains(element)) {
-				while(!flagAdd) {
-					if (comparator.compare(node.object, current.object) < 0) {
-						if (current.left != null) {
-							current = current.left;
-						} else {
-							current.left = node;
-							node.parent = current;
-							flagAdd = true;
-							size++;
-						}
-						
-					} else {
-						if (current.right != null) {
-							current = current.right;
-						} else {
-							current.right = node;
-							node.parent = current;
-							flagAdd = true;
-							size++;
-						}
-					}
-				}
-			} 				
-		} else {
-			root = node; 
-			flagAdd = true;
+		Node<T> parent = getNode(element);
+		int compRes = 0;
+		if(parent == null || (compRes = comparator.compare(element, parent.object)) != 0) {
+			flagAdd  = true;
 			size++;
+			Node<T> node = new Node<>(element);
+			node.parent = parent;
+			if(parent == null) {
+				root = node;
+			} else {
+				if (compRes < 0) {
+					parent.left = node;
+				} else {
+					parent.right = node;
+				}
+			}
 		}
 
 		return flagAdd;
+	}
+	
+	private Node<T> getNode(T element) {
+		Node<T> current = root;
+		Node<T> parent = null;
+		int resCompare;
+			while(current != null && (resCompare = comparator.compare(element, current.object)) != 0) {
+				parent = current;
+				current = resCompare < 0 ? current.left : current.right;
+			}
+		return current == null ? parent : current;
 	}
 
 	@Override
@@ -128,38 +124,9 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 
 	@Override
 	public boolean contains(T pattern) {
-		boolean next = true;
-		boolean flagContains = false;
-		if (size != 0) {
-			Node<T> current = root;
-			while(next) {
-				if (!current.object.equals(pattern)) {
-					if (comparator.compare(pattern, current.object) < 0) {
-						if (current.left != null) {
-							current = current.left;
-						} else {
-							next = false;
-						}
-						
-					} else if (comparator.compare(pattern, current.object) > 0) {
-						if (current.right != null) {
-							current = current.right;
-						} else {
-							next = false;
-						}
-					}
-				} else {
-					flagContains = true;
-					next = false;
-				}
-			
-			}
-				
-		} else {
-			flagContains = false; 
-		}
+		Node<T> node = getNode(pattern);
 		
-		return flagContains;
+		return node != null && comparator.compare(pattern, node.object) == 0;
 	}
 
 	@Override

@@ -1,17 +1,18 @@
 package telran.util.tests;
 
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 
-import telran.util.LinkedList;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import telran.util.TreeSet;
 
-public class TreeSetTest extends SetTest {
-	TreeSet<Integer> treeSetCollection;
+class TreeSetTest extends SortedTest {
 
 	@BeforeEach
 	@Override
 	void setUp() throws Exception {
-		collection = new TreeSet<>();
+		collection = new TreeSet<Integer>();
 		super.setUp();
 		treeSetCollection = (TreeSet<Integer>) collection;
 	}
