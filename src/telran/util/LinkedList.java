@@ -92,8 +92,7 @@ public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 		node.previus = nodePrev;
 		nodeIndex.previus = node;
 		node.next = nodeIndex;
-		size++;
-		
+		size++;	
 	}
 
 	private Node<T> getNode(int index) {

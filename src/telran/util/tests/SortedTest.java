@@ -1,5 +1,6 @@
 package telran.util.tests;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
@@ -43,7 +44,7 @@ public class SortedTest extends SetTest {
 	void floorTest() {
 		//FEXME
 		assertEquals((Integer)100, treeSetCollection.floor(100));
-		asserrtNull(treeSetCollection.floor(-10));
+		assertNull(treeSetCollection.floor(-10));
 		assertEquals((Integer)15, treeSetCollection.floor(20));	
 		assertEquals((Integer)280, treeSetCollection.floor(300));
 		assertEquals((Integer)100, treeSetCollection.floor(115));
@@ -52,7 +53,7 @@ public class SortedTest extends SetTest {
 	void cellingTest() {
 		//FEXME
 		assertEquals((Integer)100, treeSetCollection.celling(100));
-		asserrtNull(treeSetCollection.celling(281));
+		assertNull(treeSetCollection.celling(281));
 		assertEquals((Integer)10, treeSetCollection.celling(0));	
 		assertEquals((Integer)(-5), treeSetCollection.celling(-10));
 		assertEquals((Integer)280, treeSetCollection.celling(150));

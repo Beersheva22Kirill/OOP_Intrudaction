@@ -31,13 +31,13 @@ public abstract class  CollectionsTest {
 
 	@Test
 	void testRemove() {
-		Integer [] expected = {10, 100, -5,  280, 120, 15 , 5, 11, 4};
-		assertTrue(collection.remove((Integer)134));
+		Integer [] expected = {10, 100, -5, 134, 120, 15 , 5, 11, 4};
+		assertTrue(collection.remove((Integer)(280)));
 		Arrays.sort(expected);
 		Integer[] actual = collection.toArray(empty);
 		Arrays.sort(actual);
 		assertArrayEquals(expected, actual);
-		assertFalse(collection.remove((Integer)134));
+		assertFalse(collection.remove((Integer)280));
 	}
 
 	@Test
