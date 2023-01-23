@@ -199,7 +199,8 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 
 	public T celling(T element) {
 		Node<T> current = root;
-		Node<T> node;
+		Node<T> node;		
+		
 		while (current != null && comparator.compare(element, current.object) > 0) {
 			current = current.right;
 		} 
@@ -224,19 +225,13 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 	}
 
 	public T first() {
-		Node<T> current = root;
-		while(current.left != null) {
-			current = current.left;
-		}
-		return current.object;
+		
+		return getLeastNode(root).object ;
 	}
 
 	public T last() {
-		Node<T> current = root;
-		while(current.right != null) {
-			current = current.right;
-		}
-		return current.object;
+		
+		return getBigNode(root).object;
 	}
 
 }
