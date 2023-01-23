@@ -178,77 +178,51 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 
 	public T floor(T element) {
 		Node<T> current = root;
+		Node<T> node;
 		boolean next = true;
-		while (next && current != null) {
-			if(comparator.compare(element, current.object) < 0) {
-				if(current.left != null) {
-					current = current.left;
-				} else {
-					current = current.left;
-					next = false;
-				}
-				
-			} else if (comparator.compare(element, current.object) == 0 ){
-				next = false;
-			} else {
-				if (current.right != null) {
-					current = current.right;
-				} else {
-					if(comparator.compare(element, current.object) > 0) {
-						if(current.right != null && comparator.compare(element, current.right.object) > 0) {
-							current = current.right;
-						} else {
-							next = false;
+			while (current != null && comparator.compare(element, current.object) > 0 && current.right != null) {
+				current = current.right;
+			} 
+				if(comparator.compare(element, current.object) != 0 ) {	
+						if (current.left != null) {
+							node = getBigNode(current.left);
+							if (comparator.compare(element, node.object) < 0) {
+								current = current.parent;
+							} else {
+								current = node;
+							}
 						}
-					} else {
-						if(current.left != null ) {
-							current = current.left;
-						} else {
-							current = current.parent;
-							next = false;
-						}
-					}
+					
+					
 				}
-				
-			}
-		}
+			
+			 			
 		return current == null ? null : current.object;
 	}
 
 	public T celling(T element) {
 		Node<T> current = root;
+		Node<T> node;
 		boolean next = true;
-		while (next && current != null) {
-			if(comparator.compare(element, current.object) > 0) {
-				if(current.right != null) {
-					current = current.right;
-				} else {
-					current = current.right;
-					next = false;
-				}
-				
-			} else if (comparator.compare(element, current.object) == 0 ){
-				next = false;
-			} else {
+		while (current != null && comparator.compare(element, current.object) > 0) {
+			current = current.right;
+		} 
+		if(current != null) {
+			if(comparator.compare(element, current.object) != 0 ) {	
 				if (current.left != null) {
-					current = current.left;
-				}	
-				if(comparator.compare(element, current.object) < 0) {
-					if(current.left != null && comparator.compare(element, current.left.object) < 0) {
-						current = current.left;
+					node = getBigNode(current.left);
+					if (comparator.compare(element, node.object) > 0) {
+						if(current.parent != null) {
+							current = current.parent;
+						}
 					} else {
-						next = false;
-					}
-				} else {
-					if(current.right != null ) {
-						current = current.right;
-					} else {
-						current = current.parent;
-						next = false;
+						current = node;
 					}
 				}
 			}
 		}
+			
+		
 		
 		return current == null ? null : current.object;
 	}
