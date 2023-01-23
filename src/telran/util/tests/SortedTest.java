@@ -51,8 +51,9 @@ public class SortedTest extends SetTest {
 	}
 	@Test
 	void cellingTest() {
-		//FEXME
+		
 		assertEquals((Integer)100, treeSetCollection.celling(100));
+		assertEquals((Integer)15, treeSetCollection.celling(13));
 		assertNull(treeSetCollection.celling(281));
 		assertEquals((Integer)10, treeSetCollection.celling(0));	
 		assertEquals((Integer)(-5), treeSetCollection.celling(-10));
@@ -60,12 +61,12 @@ public class SortedTest extends SetTest {
 	}
 	@Test
 	void firstTest() {
-		//FEXME
+		
 		assertEquals((Integer)(-5), treeSetCollection.first());
 	}
 	@Test
 	void lastTest() {
-		//FEXME
+		
 		assertEquals((Integer)280, treeSetCollection.last());
 	}
 	

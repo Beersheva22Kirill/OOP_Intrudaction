@@ -51,15 +51,6 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 
 		}
 		
-		@Override
-		public void remove() {
-			if (!flagNext) {
-				throw new IllegalStateException(); 
-			}
-//			
-//			size--;
-//			flagNext = false;
-		}
 		
 	}
 	private Node<T> root;
@@ -130,7 +121,6 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 
 	@Override
 	public boolean remove(T pattern) {
-		// FIXME
 		Node<T> nodeDeleted = getNode(pattern);
 		Node<T> nodeReplaced;
 		boolean res = false;
@@ -186,14 +176,81 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 		return new TreeSetIterator();
 	}
 
-	public T floor(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public T floor(T element) {
+		Node<T> current = root;
+		boolean next = true;
+		while (next && current != null) {
+			if(comparator.compare(element, current.object) < 0) {
+				if(current.left != null) {
+					current = current.left;
+				} else {
+					current = current.left;
+					next = false;
+				}
+				
+			} else if (comparator.compare(element, current.object) == 0 ){
+				next = false;
+			} else {
+				if (current.right != null) {
+					current = current.right;
+				} else {
+					if(comparator.compare(element, current.object) > 0) {
+						if(current.right != null && comparator.compare(element, current.right.object) > 0) {
+							current = current.right;
+						} else {
+							next = false;
+						}
+					} else {
+						if(current.left != null ) {
+							current = current.left;
+						} else {
+							current = current.parent;
+							next = false;
+						}
+					}
+				}
+				
+			}
+		}
+		return current == null ? null : current.object;
 	}
 
-	public T celling(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public T celling(T element) {
+		Node<T> current = root;
+		boolean next = true;
+		while (next && current != null) {
+			if(comparator.compare(element, current.object) > 0) {
+				if(current.right != null) {
+					current = current.right;
+				} else {
+					current = current.right;
+					next = false;
+				}
+				
+			} else if (comparator.compare(element, current.object) == 0 ){
+				next = false;
+			} else {
+				if (current.left != null) {
+					current = current.left;
+				}	
+				if(comparator.compare(element, current.object) < 0) {
+					if(current.left != null && comparator.compare(element, current.left.object) < 0) {
+						current = current.left;
+					} else {
+						next = false;
+					}
+				} else {
+					if(current.right != null ) {
+						current = current.right;
+					} else {
+						current = current.parent;
+						next = false;
+					}
+				}
+			}
+		}
+		
+		return current == null ? null : current.object;
 	}
 
 	public T first() {
