@@ -28,40 +28,44 @@ public class LinearRecursion {
 		return res;
 	}
 	
-	public static long powerNew(int num, int pow) {
-		//TODO
+	public static int powerNew(int num, int pow) {
 		
 		if (pow < 0) {
 			throw new IllegalArgumentException();
 		}
-		powerNew (num,num,pow,pow);
-		//code cannot cycles and operation * and /
-		return powerNew (num,num,pow,pow);
-	}
-	
-	private static int powerNew(int num,int num2, int pow, int pow2) {
 		int res = 0;
 		
-		if(pow2 > 0) {
-			res = sumNum(num, num2);
-			powerNew(res, num2, pow, pow2 - 1);
+		if(pow == 0) {
+			res = 1;
+		} else {
+			res = sumNum(num, powerNew(num, pow - 1));
+			
 		}
+
 		return res;
 	}
-
+	
 	private static int sumNum(int num, int pow) {
-		int res = 0;
-		if (pow > 0) {
+		int res;
+		if (pow < 0) {
+			res = sumNum(num, -pow);
+		} else if (pow == 0){
+			res = 0;
+		} else {
 			res = num + sumNum(num, pow - 1);
 		}
+		
 		return res;
 	}
 
 	public static long square (int x) {
-		//TODO
-		//not cycles and not operators *, / and not additional methods
-		//no static fields
-		return 0;
+		long res = 0;
+		
+		if (x > 0) {
+			res = x + x - 1 + square(x - 1) ;
+		}
+
+		return res;
 	}
 	
 	public static long summ ( int[] array) {
@@ -92,5 +96,36 @@ public class LinearRecursion {
 		}
 	}
 	
+	public static boolean isSubstring(String string, String subString) {
+		boolean res = false;
+		
+		if (string.length() > 0) {
+			if (subString.charAt(0) == string.charAt(0)) {
+				String str = subString;
+				if (str.length() > 0) {
+					if(isSub(string, str) == 0) {
+						res = res | isSubstring(string.substring(1), subString);
+					} else res = true;
+				}	
+			} else {
+				res = res |isSubstring(string.substring(1), subString);
+			}
+				
+		}
+		return res;
+	}
+
+	private static int isSub(String string, String str) {
+		int res = 0;
+		if (str.length() > 0) {
+			if (string.charAt(0) == str.charAt(0)) {
+				res = res | isSub(string.substring(1), str.substring(1));
+			}  
+		} else {
+			res = 1;
+		}
+		return res;
+	
+	}
 
 }

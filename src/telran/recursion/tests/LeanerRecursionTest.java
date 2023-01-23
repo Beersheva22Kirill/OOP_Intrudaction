@@ -36,11 +36,27 @@ class LeanerRecursionTest {
 	
 	@Test
 	void powNewTest() {
-		//assertEquals(1 , powerNew(3,0));
-		//assertEquals(3 , powerNew(3,1));
+		assertEquals(1 , powerNew(3,0));
+		assertEquals(3 , powerNew(3,1));
 		assertEquals(81 , powerNew(3,4));
 		assertEquals(-27 , powerNew(-3,3));
 		assertThrowsExactly(IllegalArgumentException.class, () -> powerNew(5, -3));
+	}
+	
+	@Test
+	void squareTest() {
+		assertEquals(0 , square(0));
+		assertEquals(1 , square(1));
+		assertEquals(4 , square(2));
+		assertEquals(16 , square(4));
+		assertEquals(49 , square(7));
+	}
+	
+	@Test
+	void isSubstringTest() {
+		assertTrue(isSubstring("bvhanabuyt", "ab"));
+		assertTrue(isSubstring("abhanamuyt", "ab"));
+		assertFalse(isSubstring("achanamuyt", "ab"));
 	}
 	
 	@Test 
