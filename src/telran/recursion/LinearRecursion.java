@@ -38,21 +38,19 @@ public class LinearRecursion {
 		if(pow == 0) {
 			res = 1;
 		} else {
-			res = sumNum(num, powerNew(num, pow - 1));
-			
+			res = multiply(num, powerNew(num, pow - 1));	
 		}
-
 		return res;
 	}
 	
-	private static int sumNum(int num, int pow) {
+	private static int multiply(int num, int pow) {
 		int res;
 		if (pow < 0) {
-			res = sumNum(num, -pow);
+			res = multiply(num, -pow);
 		} else if (pow == 0){
 			res = 0;
 		} else {
-			res = num + sumNum(num, pow - 1);
+			res = num + multiply(num, pow - 1);
 		}
 		
 		return res;
@@ -61,7 +59,9 @@ public class LinearRecursion {
 	public static long square (int x) {
 		long res = 0;
 		
-		if (x > 0) {
+		if (x < 0) {
+			res = square(-x);
+		} else if (x > 0) {
 			res = x + x - 1 + square(x - 1) ;
 		}
 
