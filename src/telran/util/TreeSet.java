@@ -53,6 +53,8 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 		
 		
 	}
+	private static final String SYMBOL = " ";
+	private static final int NUMBER_SYMBOLS_PER_LEVEL = 3;
 	private Node<T> root;
 	private Comparator<T> comparator;
 	
@@ -234,4 +236,95 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 		return getBigNode(root).object;
 	}
 
+	public void displayTreeRotated() {
+		displayTreeRotated(root, 1);
+	}
+
+	private void displayTreeRotated(Node<T> root, int level) {
+		if(root != null) {
+			displayTreeRotated(root.right, level + 1);
+			displayRoot(root,level);
+			displayTreeRotated(root.left, level + 1);
+		}
+		
+	}
+
+	private void displayRoot(Node<T> root, int level) {
+		System.out.printf("%s%s\n", SYMBOL.repeat(NUMBER_SYMBOLS_PER_LEVEL * level),root.object);
+		
+	}
+
+	public Integer heightTree() {
+		
+		return heightTree(root);
+	}
+
+	private int heightTree(Node<T> root) {
+		int res = 0;
+		if (root != null ) {
+			int hightLeft = heightTree(root.left); 
+			int hightRight = heightTree(root.right); 
+			res = Math.max(hightLeft, hightRight) + 1;
+		}
+		
+		return res;
+	}
+
+	public Integer widthTree() {
+		
+		
+		return widthTree(root, 0);
+	}
+
+	private Integer widthTree(Node<T> root , int level) {
+		Integer res = 0;
+		Integer heightTree = heightTree();
+		Integer[] array = new Integer[heightTree];
+			counter(root,level,array);
+			for (Integer num : array) {
+				if(res < num) {
+					res = num;
+				}
+				
+			}
+		return res;
+	}
+
+
+
+	private void counter(Node<T> root, int level, Integer[] array) {
+		if (root != null) {
+			if (array[level] != null) {
+				array[level]++;
+			} else {
+				array[level] = 1;
+			}
+			
+			counter(root.left, level + 1, array);
+			counter(root.right, level + 1, array);
+		}
+		
+	}
+
+	public void inversionTree() {
+		inversionTree(root,0);
+		comparator = (Comparator<T>) Comparator.reverseOrder();
+		
+	}
+
+	private void inversionTree(Node<T> root, int level) {
+		if (root != null) {
+			swapNode(root);
+			inversionTree(root.left, level + 1);
+			inversionTree(root.right, level + 1);
+		}
+		
+	}
+
+	private void swapNode(Node<T> current) {
+		Node<T> node = current.left;
+		current.left = current.right;
+		current.right = node;
+		
+	}
 }
