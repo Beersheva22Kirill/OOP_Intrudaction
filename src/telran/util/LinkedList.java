@@ -72,7 +72,6 @@ public class LinkedList<T> extends AbstractCollection<T> implements List<T> {
 
 	@Override
 	public void add(int index, T element) {
-		// FIXME 
 		checkIndex(index, true);
 		if (index == size) {
 			add(element);

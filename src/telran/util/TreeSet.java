@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
-public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
+public class TreeSet<T> extends AbstractCollection<T> implements Sorted<T>{
 
 	static private class Node<T> {
 		T object;
@@ -22,6 +22,7 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 	private class TreeSetIterator implements Iterator<T> {
 
 		Node<T> current = root;
+		Node<T> previus;
 		boolean flagNext = false;
 
 		@Override
@@ -37,9 +38,22 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 				throw new NoSuchElementException();
 			}	
 			T res = current.object;
+			previus = current;
 			current = getNextCurrent(current);
 			flagNext = true;
 			return res;
+		}
+		
+		@Override
+		public void remove() {
+			if(!flagNext)  {
+				throw new IllegalStateException();
+			}
+			flagNext = false;
+			if(isJunction(previus)) {
+				current = previus;
+			}
+			removeNode(previus);
 		}
 
 
@@ -47,12 +61,10 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 			if (current != null) {
 				current = getLeastNode(current);
 			}
-			
-
-		}
-		
+		}		
 		
 	}
+	
 	private static final String SYMBOL = " ";
 	private static final int NUMBER_SYMBOLS_PER_LEVEL = 3;
 	private Node<T> root;
@@ -123,40 +135,52 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 
 	@Override
 	public boolean remove(T pattern) {
-		Node<T> nodeDeleted = getNode(pattern);
-		Node<T> nodeReplaced;
 		boolean res = false;
-		if (nodeDeleted.object.equals(pattern)){ 
+		Node<T> removedNode = getNode(pattern);
+		if (removedNode != null && comparator.compare(pattern, removedNode.object) == 0) {
 			res = true;
-			size--;
-			if (nodeDeleted.left == null || nodeDeleted.right == null) {
-				if(nodeDeleted.left != null) {
-					if (comparator.compare(nodeDeleted.object, nodeDeleted.parent.object) > 0) {
-						nodeDeleted.parent.right = nodeDeleted.left;
-					}else {
-						nodeDeleted.parent.left = nodeDeleted.left;
-					}
-				} else if(nodeDeleted.right != null){
-					if (comparator.compare(nodeDeleted.object, nodeDeleted.parent.object) > 0) {
-						nodeDeleted.parent.right = nodeDeleted.right;
-					}else {
-						nodeDeleted.parent.left = nodeDeleted.right;
-					}
-				} else {
-					if (comparator.compare(nodeDeleted.object, nodeDeleted.parent.object) > 0) {
-						nodeDeleted.parent.right = null;
-					}else {
-						nodeDeleted.parent.left = null;
-					}
-				}
-				
-			} else {
-				nodeReplaced = getBigNode(nodeDeleted.left);
-				nodeDeleted.object = nodeReplaced.object;
-				nodeReplaced.parent.left = nodeReplaced.left;
-			}
+			removeNode(removedNode);
 		}
 		return res;
+	}
+	
+	private void removeNode(Node<T> node) {
+		if(isJunction(node)) {
+			removeNodeJunction(node);
+		} else {
+			removeNodeNonJunction(node);
+		}
+		size--;
+		
+	}
+	
+	private boolean isJunction(Node<T> node) {
+		return node.left != null && node.right != null;
+	}
+	
+	private void removeNodeJunction(Node<T> node) {
+		Node<T> substitution = getLeastNode(node.right);
+		node.object = substitution.object;
+		removeNodeNonJunction(substitution);
+		
+	}
+		
+	private void removeNodeNonJunction(Node<T> node) {
+		Node<T> parent = node.parent;
+		Node<T> child = node.left == null ? node.right : node.left;
+		if (parent == null) {
+			root = child;
+		} else {
+			if (parent.left == node) {
+				parent.left = child;
+			} else {
+				parent.right = child;
+			}
+		}
+		if (child != null) {
+			child.parent = parent;
+		}
+		
 	}
 	
 	private Node<T> getBigNode(Node<T> current) {
@@ -165,6 +189,7 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 		}
 		return current;
 	}
+	
 	@Override
 	public boolean contains(T pattern) {
 		Node<T> node = getNode(pattern);
@@ -179,51 +204,28 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 	}
 
 	public T floor(T element) {
-		Node<T> current = root;
-		Node<T> node;
-			while (current != null && comparator.compare(element, current.object) > 0 && current.right != null) {
-				current = current.right;
-			} 
-				if(comparator.compare(element, current.object) != 0 ) {	
-						if (current.left != null) {
-							node = getBigNode(current.left);
-							if (comparator.compare(element, node.object) < 0) {
-								current = current.parent;
-							} else {
-								current = node;
-							}
-						}		
-				}
-			
-			 			
-		return current == null ? null : current.object;
+				 			
+		return floorCelling(element, true);
 	}
 
-	public T celling(T element) {
+	public T celling(T element) {	
+		
+		
+		return floorCelling(element, false);
+	}
+	
+	private T floorCelling(T pattern, boolean isFloor) {
+		T res = null;
+		int compRes = 0;
 		Node<T> current = root;
-		Node<T> node;		
-		
-		while (current != null && comparator.compare(element, current.object) > 0) {
-			current = current.right;
-		} 
-		if(current != null) {
-			if(comparator.compare(element, current.object) != 0 ) {	
-				if (current.left != null) {
-					node = getBigNode(current.left);
-					if (comparator.compare(element, node.object) > 0) {
-						if(current.parent != null) {
-							current = current.parent;
-						}
-					} else {
-						current = node;
-					}
-				}
-			}
+		while (current != null && (compRes = comparator.compare(pattern, current.object)) != 0) {
+			if ((compRes < 0 && !isFloor) || (compRes > 0 && isFloor) ) {
+				res = current.object;
+			} 
+			current = compRes < 0 ? current.left : current.right;
 		}
-			
+		return current == null ? res : current.object;
 		
-		
-		return current == null ? null : current.object;
 	}
 
 	public T first() {
@@ -307,16 +309,16 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 	}
 
 	public void inversionTree() {
-		inversionTree(root,0);
-		comparator = (Comparator<T>) Comparator.reverseOrder();
+		inversionTree(root);
+		comparator = comparator.reversed();
 		
 	}
 
-	private void inversionTree(Node<T> root, int level) {
+	private void inversionTree(Node<T> root) {
 		if (root != null) {
 			swapNode(root);
-			inversionTree(root.left, level + 1);
-			inversionTree(root.right, level + 1);
+			inversionTree(root.left);
+			inversionTree(root.right);
 		}
 		
 	}
@@ -327,4 +329,36 @@ public class TreeSet<T> extends AbstractCollection<T> implements Set<T> {
 		current.right = node;
 		
 	}
+	
+	public void balance() {
+		Node<T>[] array = getNodesArray();
+		root = balance(array, 0, array.length - 1, null);
+		
+	}
+	private Node<T> balance(Node<T>[] array, int left, int right, Node<T>parent) {
+		Node<T> root = null;
+		if (left <= right) {
+			final int rootIndex = (left + right) / 2;
+			root = array[rootIndex];
+			root.parent = parent;
+			root.left = balance(array, left, rootIndex - 1, root);
+			root.right = balance(array, rootIndex + 1, right, root);
+		}
+		return root;
+	}
+	@SuppressWarnings("unchecked")
+	private Node<T>[] getNodesArray() {
+		Node<T> res[] = new Node[size];
+		int index = 0;
+		if (root != null) {
+			Node<T> current = getLeastNode(root);
+			while (current != null) {
+				res[index++] = current;
+				current = getNextCurrent(current);
+			} 
+		}
+		return res;
+	}
+
+
 }
