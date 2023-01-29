@@ -45,16 +45,16 @@ private void forEach(Consumer<T> consumer, MdArray<T>[] mdArray) {
 }
 
 public void setValue (int[] address, T value)	{
-	MdArray<T> elementOfArray = searchElementOfAddress(address);
+	MdArray<T> elementOfArray = searchElementByAddress(address);
 		elementOfArray.value = value; 	
 }
 
 public T getValue (int[]address) {
-	MdArray<T> elementOfArray = searchElementOfAddress(address);
+	MdArray<T> elementOfArray = searchElementByAddress(address);
 	return elementOfArray.value;
 }
 
-private MdArray<T> searchElementOfAddress(int[] address) {
+private MdArray<T> searchElementByAddress(int[] address) {
 	MdArray<T> elementOfArray = this;
 	int i = 0;
 		while(elementOfArray.value == null) {
