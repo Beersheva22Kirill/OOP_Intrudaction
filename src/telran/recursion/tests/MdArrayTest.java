@@ -51,6 +51,9 @@ class MdArrayTest {
 		mdArray.setValue(address, 51);
 		assertEquals(51, mdArray.getValue(address));	
 		assertEquals(50, mdArray.getValue(new int[] {0,0,0}));
+		assertThrowsExactly(IllegalStateException.class, ()->mdArray.getValue(new int[] {8,4}));
+		assertThrowsExactly(NoSuchElementException.class, ()->mdArray.getValue(new int[] {7,1,1,1}));
+		assertThrowsExactly(IndexOutOfBoundsException.class, ()->mdArray.getValue(new int[] {8,6,1}));
 	}
 
 }

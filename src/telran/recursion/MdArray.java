@@ -1,18 +1,23 @@
 package telran.recursion;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 public class MdArray<T> {
 	
 private MdArray<T>[] array;
 private T value;
+private int[] dimension;
 
 public MdArray(int dimensions[], T value) {
+	
 	this(dimensions, 0, value);
 }
 @SuppressWarnings("unchecked")
 public MdArray(int[] dimensions, int firstDim, T value) {
+	this.dimension = dimensions;
 	if (firstDim == dimensions.length) {
 		this.value = value;
 		array = null;
@@ -55,6 +60,7 @@ public T getValue (int[]address) {
 }
 
 private MdArray<T> searchElementByAddress(int[] address) {
+	checkAddresByIndexes(address);
 	MdArray<T> elementOfArray = this;
 	int i = 0;
 		while(elementOfArray.value == null) {
@@ -64,6 +70,20 @@ private MdArray<T> searchElementByAddress(int[] address) {
 	return elementOfArray;
 }
 
+private void checkAddresByIndexes(int[] address) {
+	if (dimension.length > address.length) {
+		throw new IllegalStateException();
+	}
+	if (dimension.length < address.length) {
+		throw new NoSuchElementException();
+	}
+	for (int i = 0; i < address.length; i++) {
+		if (address[i] > dimension[i] ) {
+			throw new IndexOutOfBoundsException();
+		}
+	}
+	
+}
 public T[] toArray (T[] array) {
 	ArrayList<T> arrayList = new ArrayList<>();
 	forEach(value -> arrayList.add(value));
