@@ -41,7 +41,7 @@ public void forEach(Consumer<T> consumer) {
 private void forEach(Consumer<T> consumer, MdArray<T>[] mdArray) {
 	
 	for (int i = 0; i < mdArray.length; i++) {
-		if (mdArray[i].value != null) {
+		if (mdArray[i].array == null) {
 			consumer.accept(mdArray[i].value);			
 		} else {			 
 			 forEach(consumer, mdArray[i].array);
@@ -63,7 +63,7 @@ private MdArray<T> searchElementByAddress(int[] address) {
 	checkAddresByIndexes(address);
 	MdArray<T> elementOfArray = this;
 	int i = 0;
-		while(elementOfArray.value == null) {
+		while(elementOfArray.array != null) {
 			elementOfArray = elementOfArray.array[address[i]];
 			i++;
 		}
