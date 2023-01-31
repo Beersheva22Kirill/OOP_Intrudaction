@@ -103,6 +103,15 @@ public abstract class  CollectionsTest {
 		 iterator1.remove();
 		 assertFalse(collection.contains(num));
 	}
+	
+	@Test
+	void toArrayShufflingTest() {
+		System.out.println(Arrays.toString(numbers));
+		ArrayList<Integer> expected = new ArrayList<>();
+		Arrays.stream(numbers).forEach(expected::add);
+		Integer[] expArray = expected.toArrayShuffling(numbers);
+		System.out.println(Arrays.toString(expArray));
+	}
 
 	
 }

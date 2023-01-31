@@ -2,7 +2,11 @@ package telran.util;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public interface Collection<T> extends Iterable<T>{
 	
@@ -40,16 +44,28 @@ public interface Collection<T> extends Iterable<T>{
 	int size();
 	boolean contains(T pattern);
 	
-	/******************************************/ 
-	/**
-	 * 
-	 * @param ar 
-	 * @return array containing elements of a Collection
-	 * if ar refers to memory that is enough for all elements of Collection then new array is not created
-	 * otherwise there will be created new array.  
-	 * if ar refers to memory that is greater than required for all elements of Collection then all elements 
-	 * Collection will be put in the array and rest of memory will be filled by null's
-	 */
-	//T[] toArray (T[]ar);
+	default Stream<T> stream(){
+		
+		return StreamSupport.stream(this.spliterator(), false);
+	}
+	
+	default Stream<T> parallelStream(){
+		
+		return StreamSupport.stream(this.spliterator(), true);
+	}
+	
+	
+	default T[] toArrayShuffling(T[] array) {
+		ArrayList<Integer> indexes = new ArrayList<>();
+		new Random().ints(0,array.length).distinct().limit(8).forEach(indexes::add);
+		T[] res = array;
+		for (int i = 0; i < array.length; i++) {
+			T temp = res[i];
+			res[i] = res[indexes.get(i)];
+			res[indexes.get(i)] = temp;	
+		}
+		
+		return res;	
+	}
 
 }
