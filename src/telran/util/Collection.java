@@ -57,7 +57,7 @@ public interface Collection<T> extends Iterable<T>{
 	
 	default T[] toArrayShuffling(T[] array) {
 		ArrayList<Integer> indexes = new ArrayList<>();
-		new Random().ints(0,array.length).distinct().limit(8).forEach(indexes::add);
+		new Random().ints(0,array.length).distinct().limit(array.length).forEach(indexes::add);
 		T[] res = array;
 		for (int i = 0; i < array.length; i++) {
 			T temp = res[i];
