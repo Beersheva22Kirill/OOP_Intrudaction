@@ -360,5 +360,17 @@ public class TreeSet<T> extends AbstractCollection<T> implements Sorted<T>{
 		return res;
 	}
 
+	@Override
+	public T get(T pattern) {
+		T res = null;
+		Iterator<T> iterator = iterator();
+		T object = null;
+		while (iterator.hasNext() && !isEquals(pattern, object = iterator.next())) {}
+			if (isEquals(pattern, object)) {
+				res = object;
+			}
+		return res;
+	}
+
 
 }
