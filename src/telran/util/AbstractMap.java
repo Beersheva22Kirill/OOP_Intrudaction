@@ -21,18 +21,7 @@ public V put(K key, V value) {
 }
 
 
-@Override
-public V putIfAbsent(K key, V value) {
-	V res = null;
-	Entry<K, V> entry = set.get(new Entry<>(key, null));
-	if (entry != null) {
-		res = entry.getValue();
-	} else {
-		set.add(new Entry<>(key,value));
-		res = null;
-	}
-	return res;
-}
+
 
 @Override
 public V get(K key) {
@@ -44,17 +33,7 @@ public V get(K key) {
 	return res;
 }
 
-@Override
-public V getOrDefault(K key, V value) {
-	V res = null;
-	Entry<K, V> entry = set.get(new Entry<>(key, null));
-	if(entry != null) {
-		res = entry.getValue();
-	} else {
-		res = value;
-	}
-	return res;
-}
+
 
 @Override
 public boolean containsKey(K key) {
@@ -68,14 +47,8 @@ public boolean containsKey(K key) {
 
 @Override
 public boolean containsValue(V value) {
-	boolean res = false;
-	Iterator<Entry<K,V>> iterator = set.iterator();
-	while(iterator.hasNext()) {
-		if(iterator.next().getValue().equals(value)) {
-			res = true;
-		}
-	}
-	return res;
+
+	return set.stream().anyMatch(e -> e.getValue().equals(value));
 }
 
 @Override
@@ -93,10 +66,7 @@ public Set<K> keySet() {
 	try {
 		@SuppressWarnings("unchecked")
 		Set<K> res = set.getClass().getConstructor().newInstance();
-		Iterator<Entry<K,V>> iterator = set.iterator();
-		while (iterator.hasNext()) {
-			res.add(iterator.next().getKey());
-		}
+		set.forEach(e -> res.add(e.getKey()));
 		return res;
 	} catch (Exception e) {
 		throw new IllegalStateException();
@@ -110,10 +80,7 @@ public Set<Entry<K, V>> entrySet() {
 	try {
 		@SuppressWarnings("unchecked")
 		Set<Entry<K, V>> res = set.getClass().getConstructor().newInstance();
-		Iterator<Entry<K,V>> iterator = set.iterator();
-		while (iterator.hasNext()) {
-			res.add(iterator.next());
-		}
+		set.forEach(res::add);
 		return res;
 	} catch (Exception e) {
 		throw new IllegalStateException();

@@ -24,7 +24,6 @@ class HashSetTest extends SetTest {
 	
 	Random random = new Random();
 	private static final int N_RUNS = 10;
-
 	private static final int N_NUMBERS = 100000;
 
 	@Test

@@ -89,19 +89,4 @@ class ListTest extends CollectionsTest {
 	}
 	
 	
-	@Test
-	@Override
-	void testIterator() {	
-		
-		Integer[] array  = new Integer[list.size()];
-		Iterator<Integer> iterator = list.iterator();
-		int i = 0;
-			while(iterator.hasNext()){       
-				array[i++] = iterator.next();
-			}
-		assertArrayEquals(numbers, array);
-		assertThrowsExactly(NoSuchElementException.class, () -> iterator.next());
-	}
-
-
 }
