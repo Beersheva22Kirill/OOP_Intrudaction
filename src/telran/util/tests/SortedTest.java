@@ -90,6 +90,16 @@ public abstract class SortedTest extends SetTest {
 			sorted.floor(gen.nextInt());
 		}
 	}
+	
+	@Test
+	@Override
+	void testToArray() {
+		Integer[] actual = set.toArray(empty);
+		Arrays.sort(actual);
+		Arrays.sort(numbers);
+		assertArrayEquals(numbers, actual);
+		
+	}
 
 	protected abstract Sorted<Integer> getSortedCollection();
 

@@ -58,5 +58,15 @@ class HashSetTest extends SetTest {
 		}
 		
 	}
+	
+	@Test
+	@Override
+	void testToArray() {
+		Integer[] actual = set.toArray(empty);
+		Arrays.sort(actual);
+		Arrays.sort(numbers);
+		assertArrayEquals(numbers, actual);
+		
+	}
 
 }
